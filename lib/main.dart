@@ -1,70 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'api/Controller.dart';
+import 'api/user/user.dart';
+import 'api/user/user_api.dart';
 
 
-
-class Api{
-  static const String port='http://192.168.0.14:8000';
-
-  Future<String> fetchHello() async {
-    try{
-      final response = await http
-          .get(Uri.parse('$port/hello'));
-      print("response code: ${response.statusCode}");
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        throw Exception('Failed to load Hello');
-      }
-    }
-    catch(e){
-      print(e);
-      return '';
-    }
-  }
-
-  Future<String> register(User user) async{
-
-    try{
-      final response = await http.post(Uri.parse('$port/api/user'),body: user.toJson());
-      print("response code: ${response.statusCode}");
-      return response.body;
-    }
-    catch(e){
-      print(e);
-      return '';
-    }
-  }
-}
-class User{
-  final String uid;
-  final String email;
-  final String password;
-
-  User(this.uid, this.email, this.password);
-
-  factory User.fromJson(dynamic json){
-    return User(json['uid'] as String,
-        json['email'] as String,
-        json['password'] as String);
-  }
-  Map toJson(){
-    return {
-      'uid' : uid,
-      'email' : email,
-      'password' : password
-    };
-  }
-  @override
-  String toString() {
-    return '{ $uid, $email,$password }';
-  }
-}
-
-
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -91,19 +33,33 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  Future<String>? futureHello;
-  Future<String>? futureRegister;
-  final api=Api();
-  final user=User('James','jamesabcde277@gmail.com','123456789');
+  bool login=false;
 
+  Future<String>? futureHello;
+
+  Future<String>? futureRegister;
+  Future<String>? futureLogin;
+
+  Future<String>? futureInfo;
+  Future<String>? futureUpdate;
+  Future<String>? futureDestroy;
+  Future<String>? futureLogout;
+
+  final userApi=UserApi();
+  final user=User('James','jamesabcde277@gmail.com','123456789');
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    
-    futureHello=api.fetchHello();
-    futureRegister=api.register(user);
-    print(user.toJson());
+    futureHello=userApi.fetchHello();
+
+    futureRegister=userApi.register(user);
+    futureLogin=userApi.login(user);
+
+    futureInfo=userApi.info(user);
+    futureUpdate=userApi.update(user);
+    futureDestroy=userApi.delete(user,'a');
+    futureLogout=userApi.logout(user);
   }
   void _incrementCounter() {
     setState(() {
@@ -112,32 +68,185 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   Widget registerTest(){
     return SizedBox(
-      width:  300,
-      height: 200,
-      child:
-      FutureBuilder<String>(
-        future: futureRegister,
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return Text(
-              snapshot.data!,
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-            );
-          } else if (snapshot.hasError) {
-            return Text(
-              '${snapshot.error}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
-            );
-          }
+        width:  300,
+        height: 100,
+        child:
+        FutureBuilder<String>(
+          future: futureRegister,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final response=Response.fromJson(jsonDecode(snapshot.data!));
+              print(response.message);
+              return Text(
+                response.message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            } else if (snapshot.hasError) {
+              return Text(
+                '${snapshot.error}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            }
 
-          // By default, show a loading spinner.
-          return const CircularProgressIndicator();
-        },
-      )
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        )
     );
   }
+  Widget loginTest(){
+    return SizedBox(
+        width:  300,
+        height: 100,
+        child:
+        FutureBuilder<String>(
+          future: futureLogin,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final response=Response.fromJson(jsonDecode(snapshot.data!));
+              user.apiToken=response.data['apiToken'];
+              print(response.message);
+              return Text(
+                response.message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            } else if (snapshot.hasError) {
+              return Text(
+                '${snapshot.error}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        )
+    );
+  }
+
+  Widget infoTest(){
+    return SizedBox(
+        width:  300,
+        height: 100,
+        child:
+        FutureBuilder<String>(
+          future: futureInfo,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final response=Response.fromJson(jsonDecode(snapshot.data!));
+              print(response.data);
+              return Text(
+                response.message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            } else if (snapshot.hasError) {
+              return Text(
+                '${snapshot.error}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        )
+    );
+  }
+  Widget updateTest(){
+    return SizedBox(
+        width:  300,
+        height: 100,
+        child:
+        FutureBuilder<String>(
+          future: futureInfo,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final response=Response.fromJson(snapshot.data!);
+
+              return Text(
+                response.message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            } else if (snapshot.hasError) {
+              return Text(
+                '${snapshot.error}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        )
+    );
+  }
+  Widget deleteTest(){
+    return SizedBox(
+        width:  300,
+        height: 100,
+        child:
+        FutureBuilder<String>(
+          future: futureInfo,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final response=Response.fromJson(snapshot.data!);
+              return Text(
+                response.message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            } else if (snapshot.hasError) {
+              return Text(
+                '${snapshot.error}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        )
+    );
+  }
+  Widget logoutTest(){
+    return SizedBox(
+        width:  300,
+        height: 100,
+        child:
+        FutureBuilder<String>(
+          future: futureInfo,
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              final response=Response.fromJson(snapshot.data!);
+              return Text(
+                response.message,
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            } else if (snapshot.hasError) {
+              return Text(
+                '${snapshot.error}',
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
+              );
+            }
+
+            // By default, show a loading spinner.
+            return const CircularProgressIndicator();
+          },
+        )
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -148,24 +257,10 @@ class _MyHomePageState extends State<MyHomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            // SizedBox(
-            //   width: 100,
-            //   height: 100,
-            //   child:FutureBuilder<String>(
-            //     future: futureHello,
-            //     builder: (context, snapshot) {
-            //       if (snapshot.hasData) {
-            //         return Text(snapshot.data!);
-            //       } else if (snapshot.hasError) {
-            //         return Text('${snapshot.error}');
-            //       }
-            //
-            //       // By default, show a loading spinner.
-            //       return const CircularProgressIndicator();
-            //     },
-            //   ),
-            // ),
             registerTest(),
+            loginTest(),
+            infoTest(),
+
           ],
         ),
       ),
