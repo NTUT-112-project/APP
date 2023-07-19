@@ -1,7 +1,7 @@
 class User{
-  final String uid;
-  final String email;
-  final String password;
+  String uid;
+  String email;
+  String password;
   String? apiToken;
 
   User(this.uid, this.email, this.password);

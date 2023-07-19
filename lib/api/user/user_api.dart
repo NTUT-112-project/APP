@@ -5,26 +5,20 @@ import 'package:school_project/api/user/user.dart';
 class UserApi{
   static const String port='http://192.168.0.14:8000';
 
-  Future<String> fetchHello() async {
+  Future<String> userRegister(User user) async{
     try{
-      final response = await http
-          .get(Uri.parse('$port/hello'));
+      final response = await http.post(Uri.parse('$port/api/user'),body: user.toJson());
       print("response code: ${response.statusCode}");
-      if (response.statusCode == 200) {
-        return response.body;
-      } else {
-        throw Exception('Failed to load Hello');
-      }
+      return response.body;
     }
     catch(e){
       print(e);
       return '';
     }
   }
-
-  Future<String> register(User user) async{
+  Future<String> adminRegister(User user) async{
     try{
-      final response = await http.post(Uri.parse('$port/api/user'),body: user.toJson());
+      final response = await http.post(Uri.parse('$port/api/admin'),body: user.toJson());
       print("response code: ${response.statusCode}");
       return response.body;
     }
@@ -46,8 +40,10 @@ class UserApi{
   }
 
   Future<String> info(User user) async{
+
     try{
-      print('token=${user.apiToken}');
+      // print('token=${user.apiToken}');
+      // print('$port/api/user?api_token=${user.apiToken}');
       final response = await http.get(Uri.parse('$port/api/user?api_token=${user.apiToken}'));
       print("response code: ${response.statusCode}");
       return response.body;
