@@ -22,28 +22,8 @@ class _HomePage extends State<HomePage>{
             const Text(
               'Welcome',
               style: TextStyle(
-                fontSize: 50,
-                color: Colors.white
-              ),
-            ),
-            const SizedBox(height: 50,),
-            TextButton(
-              onPressed: (){
-                Navigator.popAndPushNamed(context, '/login');
-              },
-              child: const Text(
-                "Sign in",
-                style: TextStyle(fontSize: 20,color: Colors.blue),
-              ),
-            ),
-
-            TextButton(
-              onPressed: (){
-                Navigator.popAndPushNamed(context, '/register');
-              },
-              child: const Text(
-                "Sign up",
-                style: TextStyle(fontSize: 20,color: Colors.blue),
+                  fontSize: 40,
+                  color: Colors.blue
               ),
             ),
           ],

@@ -16,7 +16,9 @@ class _LoginPage extends State<LoginPage>{
   final FocusNode _accountFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
 
+  Future _signIn() async{
 
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,7 +28,15 @@ class _LoginPage extends State<LoginPage>{
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Text(
-                "Sign in",
+                'APP',
+                style: TextStyle(
+                    fontSize: 40,
+                    color: Colors.blue
+                ),
+              ),
+              const SizedBox(height: 10,),
+              const Text(
+                "Sign in to APP",
                 style: TextStyle(fontSize: 20,color: Colors.white),
               ),
               Padding(
@@ -68,21 +78,32 @@ class _LoginPage extends State<LoginPage>{
                             labelText: 'password',
                           ),
                         ),
-
+                        const SizedBox(height: 15,),
+                        Container(
+                          height: 40,
+                          width: double.maxFinite,
+                          child:TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.green[700],
+                            ),
+                            onPressed: (){
+                              _signIn();
+                            },
+                            child: const Text(
+                              "Sign in",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                        ),
                       ],
                     ),
                   ),
                 ),
               ),
-              TextButton(
-                onPressed: (){
-                  //sign in
-                },
-                child: const Text(
-                  "Sign in",
-                  style: TextStyle(fontSize: 20,color: Colors.blue),
-                ),
-              ),
+
               Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children:[

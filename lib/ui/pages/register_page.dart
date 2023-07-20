@@ -28,7 +28,7 @@ class _RegisterPage extends State<RegisterPage>{
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const Text(
-              "Sign up",
+              "Sign up to APP",
               style: TextStyle(fontSize: 20,color: Colors.white),
             ),
             Padding(
@@ -86,18 +86,29 @@ class _RegisterPage extends State<RegisterPage>{
                           labelText: 'Password',
                         ),
                       ),
+                      const SizedBox(height: 15,),
+                      Container(
+                          height: 40,
+                          width: double.maxFinite,
+                          child:TextButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.green[700],
+                            ),
+                            onPressed: (){
+                              // _signUp();
+                            },
+                            child: const Text(
+                              "Sign up",
+                              style: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          )
+                      ),
                     ],
                   ),
                 ),
-              ),
-            ),
-            TextButton(
-              onPressed: (){
-                //sign up request
-              },
-              child: const Text(
-                "Sign up",
-                style: TextStyle(fontSize: 20,color: Colors.blue),
               ),
             ),
             Row(
