@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../textures/glassmorphism.dart';
+
 class HomePage extends StatefulWidget{
   const HomePage({super.key});
 
@@ -25,37 +27,23 @@ class _HomePage extends State<HomePage>{
               ),
             ),
             const SizedBox(height: 50,),
-
             TextButton(
-              style: TextButton.styleFrom(
-                foregroundColor: Colors.blueAccent,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                textStyle: const TextStyle(color: Colors.white),
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              ),
               onPressed: (){
-                Navigator.pushNamed(context, '/login');
+                Navigator.popAndPushNamed(context, '/login');
               },
               child: const Text(
                 "Sign in",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 20,color: Colors.blue),
               ),
             ),
+
             TextButton(
-              style: TextButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              ),
               onPressed: (){
-                Navigator.pushNamed(context, '/register');
+                Navigator.popAndPushNamed(context, '/register');
               },
               child: const Text(
                 "Sign up",
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 20,color: Colors.blue),
               ),
             ),
           ],

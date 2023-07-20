@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:school_project/ui/login_page.dart';
-import 'package:school_project/ui/register_page.dart';
+import 'package:school_project/ui/pages/home_page.dart';
+
+import 'package:school_project/ui/pages/login_page.dart';
+import 'package:school_project/ui/pages/register_page.dart';
 
 
 class MyApp extends StatelessWidget {
@@ -9,11 +11,12 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'App',
-      initialRoute: '/login',
+      initialRoute: '/home',
+      theme: ThemeData.dark(),
       routes: {
         '/register': (context) => RegisterPage(),
         '/login': (context) => LoginPage(),
-        '/home': (context) => Placeholder(),
+        '/home': (context) => HomePage(),
       },
     );
   }
