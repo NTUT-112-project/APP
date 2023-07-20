@@ -47,19 +47,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> userRegisterTest()async {
-    final data=await userApi.userRegister(user);
-    final response = Response.fromJson(jsonDecode(data));
+    final response=await userApi.userRegister(user);
     print(response.message);
   }
   Future<void> adminRegisterTest()async {
-    final data=await userApi.adminRegister(user);
-    final response = Response.fromJson(jsonDecode(data));
+    final response=await userApi.adminRegister(user);
     print(response.message);
   }
 
   Future<void> loginTest()async {
-    final data=await userApi.login(user);
-    final response = Response.fromJson(jsonDecode(data));
+    final response=await userApi.login(user);
     print(response.message);
     setState(() {
       user.apiToken=response.data;
@@ -70,13 +67,11 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
   Future<void> infoTest()async {
-    final data = await userApi.info(user);
-    final response = Response.fromJson(jsonDecode(data));
+    final response = await userApi.info(user);
     print(response.message);
   }
   Future<void> deleteTest()async{
-    final data = await userApi.delete(user,'3');
-    final response = Response.fromJson(jsonDecode(data));
+    final response = await userApi.delete(user,'3');
     print(response.message);
   }
   Future<void> updateTest()async {
@@ -84,14 +79,12 @@ class _MyHomePageState extends State<MyHomePage> {
     const newGmail='newGmail@gmail.com';
     user.email=newGmail;
     user.uid=newUid;
-    final data = await userApi.update(user);
-    final response = Response.fromJson(jsonDecode(data));
+    final response = await userApi.update(user);
     print(response.message);
 
   }
   Future<void> logoutTest()async{
-    final data = await userApi.logout(user);
-    final response = Response.fromJson(jsonDecode(data));
+    final response = await userApi.logout(user);
     print(response.message);
   }
 
