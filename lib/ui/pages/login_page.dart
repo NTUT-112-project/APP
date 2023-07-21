@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../api/user/user.dart';
+import '../../api/user/user_api.dart';
+
 class LoginPage extends StatefulWidget{
   const LoginPage({super.key});
 
@@ -8,6 +11,9 @@ class LoginPage extends StatefulWidget{
   State<StatefulWidget> createState()=>_LoginPage();
 }
 class _LoginPage extends State<LoginPage>{
+  bool isWrongAccountOrPassword=false;
+  final user=User('','','');
+  final userApi=UserApi();
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _accountControl = TextEditingController();
@@ -16,17 +22,56 @@ class _LoginPage extends State<LoginPage>{
   final FocusNode _accountFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
 
-  Future _signIn() async{
+  void _signIn(BuildContext context) async {
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (_) {
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: const [
+                CircularProgressIndicator(),
+                SizedBox(
+                  height: 15,
+                ),
+                Text(
+                    'Loading...',
+                  style: TextStyle(color: Colors.white,fontSize: 15),
+                )
+              ],
+            ),
+          ),
+        );
+      });
+    print(user);
+    final response=await userApi.login(user);
+    print(response);
+
+    if (context.mounted) {
+      if(response.success){
+        Navigator.popAndPushNamed(context,'/home');
+      }
+      else{
+        Navigator.pop(context);
+        setState(() {
+          isWrongAccountOrPassword=true;
+        });
+      }
+    }
 
   }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: SingleChildScrollView(
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
+              const SizedBox(height: 100,),
               const Text(
                 'APP',
                 style: TextStyle(
@@ -40,12 +85,12 @@ class _LoginPage extends State<LoginPage>{
                 style: TextStyle(fontSize: 20,color: Colors.white),
               ),
               Padding(
-                padding: const EdgeInsets.all(32),
+                padding: const EdgeInsets.all(20),
                 child: Form(
                   key: _formKey,
                   child: AutofillGroup(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         TextFormField(
                           controller: _accountControl,
@@ -56,6 +101,9 @@ class _LoginPage extends State<LoginPage>{
                           onEditingComplete: () {
                             _accountFocus.unfocus();
                             FocusScope.of(context).requestFocus(_passwordFocus);
+                            setState(() {
+                              user.email=_accountControl.text;//identify account is email or user ID
+                            });
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -72,6 +120,9 @@ class _LoginPage extends State<LoginPage>{
                           onEditingComplete: () {
                             _passwordFocus.unfocus();
                             TextInput.finishAutofillContext();
+                            setState(() {
+                              user.password=_passwordControl.text;//identify account is email or user ID
+                            });
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -79,7 +130,7 @@ class _LoginPage extends State<LoginPage>{
                           ),
                         ),
                         const SizedBox(height: 15,),
-                        Container(
+                        SizedBox(
                           height: 40,
                           width: double.maxFinite,
                           child:TextButton(
@@ -87,7 +138,7 @@ class _LoginPage extends State<LoginPage>{
                               backgroundColor: Colors.green[700],
                             ),
                             onPressed: (){
-                              _signIn();
+                              _signIn(context);
                             },
                             child: const Text(
                               "Sign in",
@@ -98,6 +149,12 @@ class _LoginPage extends State<LoginPage>{
                             ),
                           )
                         ),
+                        const SizedBox(height: 5),
+                        Text(
+                          (isWrongAccountOrPassword)?"*Wrong account or password":"",
+                          style: const TextStyle(fontSize: 15,color: Colors.red),
+                        ),
+
                       ],
                     ),
                   ),
