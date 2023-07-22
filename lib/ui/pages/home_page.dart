@@ -40,13 +40,13 @@ class _HomePage extends State<HomePage> {
             // Important: Remove any padding from the ListView.
             padding: EdgeInsets.zero,
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 100,
-                child: const DrawerHeader(
+                child: DrawerHeader(
                   decoration: BoxDecoration(
                     color: Colors.blue,
                   ),
-                  child: Text('hello there',style: const TextStyle(fontSize: 20),),
+                  child: Text('hello there',style: TextStyle(fontSize: 20),),
                 ),
               ),
               _buildTile("tool", 0),

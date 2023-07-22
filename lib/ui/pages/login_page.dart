@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:school_project/storage/storage.dart';
 
 import '../../api/user/user.dart';
 import '../../api/user/user_api.dart';
@@ -12,6 +13,7 @@ class LoginPage extends StatefulWidget{
   State<StatefulWidget> createState()=>_LoginPage();
 }
 class _LoginPage extends State<LoginPage>{
+  bool isRememberMeChecked=false;
   bool isWrongAccountOrPassword=false;
   final user=User('','','');
   final userApi=UserApi();
@@ -55,6 +57,9 @@ class _LoginPage extends State<LoginPage>{
       if(response.success){
         Navigator.pop(context);
         Navigator.popAndPushNamed(context,'/home');
+        if(isRememberMeChecked){
+          UserStorage().writeUser(user);
+        }
       }
       else{
         Navigator.pop(context);
@@ -146,8 +151,36 @@ class _LoginPage extends State<LoginPage>{
                             border: OutlineInputBorder(),
                             labelText: 'password',
                           ),
+
                         ),
-                        const SizedBox(height: 15,),
+                        const SizedBox(height: 10,),
+                        SizedBox(
+                          width: double.maxFinite,
+                          height: 30,
+                          child:Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Checkbox(
+                                checkColor: Colors.white,
+                                activeColor: Colors.blue,
+                                value: isRememberMeChecked,
+                                onChanged: (bool? value) {
+                                  setState(() {
+                                    isRememberMeChecked = value!;
+                                  });
+                                },
+                              ),
+                              const Text(
+                                "Remember me",
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  color: Colors.white,
+                                ),
+                              ),
+                            ],
+                          )
+                        ),
+                        const SizedBox(height: 10,),
                         SizedBox(
                           height: 40,
                           width: double.maxFinite,

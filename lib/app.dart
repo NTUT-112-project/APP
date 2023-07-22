@@ -6,12 +6,14 @@ import 'package:school_project/ui/pages/register_page.dart';
 
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  final bool isSignedIn;
+  const MyApp(this.isSignedIn, {super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'App',
-      initialRoute: '/login',
+      initialRoute: isSignedIn?'/home':'/login',
       theme: ThemeData.dark(),
       routes: {
         '/register': (context) => const RegisterPage(),
