@@ -52,6 +52,7 @@ class _LoginPage extends State<LoginPage>{
 
     if (context.mounted) {
       if(response.success){
+        Navigator.pop(context);
         Navigator.popAndPushNamed(context,'/home');
       }
       else{
@@ -98,12 +99,15 @@ class _LoginPage extends State<LoginPage>{
                           textInputAction: TextInputAction.next,
                           focusNode: _accountFocus,
                           autofillHints: const [AutofillHints.username],
+                          onChanged: (String newEmail){
+                            if(newEmail==user.email) return ;
+                            setState(() {
+                              user.email=newEmail;//identify account is email or user ID
+                            });
+                          },
                           onEditingComplete: () {
                             _accountFocus.unfocus();
                             FocusScope.of(context).requestFocus(_passwordFocus);
-                            setState(() {
-                              user.email=_accountControl.text;//identify account is email or user ID
-                            });
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -117,6 +121,12 @@ class _LoginPage extends State<LoginPage>{
                           obscureText: true,
                           focusNode: _passwordFocus,
                           autofillHints: const [AutofillHints.password],
+                          onChanged: (String newPassword){
+                            if(newPassword==user.password) return ;
+                            setState(() {
+                              user.password=newPassword;//identify account is email or user ID
+                            });
+                          },
                           onEditingComplete: () {
                             _passwordFocus.unfocus();
                             TextInput.finishAutofillContext();

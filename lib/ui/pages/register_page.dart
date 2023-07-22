@@ -66,6 +66,7 @@ class _RegisterPage extends State<RegisterPage>{
 
     if (context.mounted) {
       if(response.success){
+        Navigator.pop(context);
         Navigator.popAndPushNamed(context,'/login');
       }
       else{
@@ -107,6 +108,12 @@ class _RegisterPage extends State<RegisterPage>{
                         textInputAction: TextInputAction.next,
                         focusNode: _uidFocus,
                         autofillHints: const [AutofillHints.username],
+                        onChanged: (String newUid){
+                          if(newUid==user.uid) return ;
+                          setState(() {
+                            user.uid=newUid;//identify account is email or user ID
+                          });
+                        },
                         onEditingComplete: () {
                           _uidFocus.unfocus();
                           FocusScope.of(context).requestFocus(_emailFocus);
@@ -128,6 +135,12 @@ class _RegisterPage extends State<RegisterPage>{
                         obscureText: false,
                         focusNode: _emailFocus,
                         autofillHints: const [AutofillHints.email],
+                        onChanged: (String newEmail){
+                          if(newEmail==user.email) return ;
+                          setState(() {
+                            user.email=newEmail;//identify account is email or user ID
+                          });
+                        },
                         onEditingComplete: () {
                           _emailFocus.unfocus();
                           FocusScope.of(context).requestFocus(_passwordFocus);
@@ -149,6 +162,12 @@ class _RegisterPage extends State<RegisterPage>{
                         obscureText: true,
                         focusNode: _passwordFocus,
                         autofillHints: const [AutofillHints.password],
+                        onChanged: (String newPassword){
+                          if(newPassword==user.password) return ;
+                          setState(() {
+                            user.password=newPassword;//identify account is email or user ID
+                          });
+                        },
                         onEditingComplete: () {
                           _passwordFocus.unfocus();
                           FocusScope.of(context).requestFocus(_confirmPasswordFocus);
@@ -169,12 +188,15 @@ class _RegisterPage extends State<RegisterPage>{
                         cursorColor: Colors.blue[800],
                         obscureText: true,
                         focusNode: _confirmPasswordFocus,
+                        onChanged: (String newS){
+                          confirmPasswordInvalidMessage=
+                          (_confirmPasswordControl.text!=_passwordControl.text)?
+                          '*password unmatched':'';
+                        },
                         onEditingComplete: () {
                           _confirmPasswordFocus.unfocus();
                           TextInput.finishAutofillContext();
-                          confirmPasswordInvalidMessage=
-                          (_confirmPasswordControl.text!=_passwordControl.text)?
-                            '*password unmatched':'';
+
                         },
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(),
