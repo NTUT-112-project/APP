@@ -140,6 +140,7 @@ class _RegisterPage extends State<RegisterPage>{
                           setState(() {
                             user.email=newEmail;//identify account is email or user ID
                           });
+
                         },
                         onEditingComplete: () {
                           _emailFocus.unfocus();

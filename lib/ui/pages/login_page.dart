@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 
 import '../../api/user/user.dart';
 import '../../api/user/user_api.dart';
+import 'package:email_validator/email_validator.dart';
 
 class LoginPage extends StatefulWidget{
   const LoginPage({super.key});
@@ -99,15 +100,22 @@ class _LoginPage extends State<LoginPage>{
                           textInputAction: TextInputAction.next,
                           focusNode: _accountFocus,
                           autofillHints: const [AutofillHints.username],
-                          onChanged: (String newEmail){
-                            if(newEmail==user.email) return ;
+                          onChanged: (String newAccount){
+                            if(newAccount==user.email || newAccount==user.uid) return ;
                             setState(() {
-                              user.email=newEmail;//identify account is email or user ID
+                              if(EmailValidator.validate(newAccount)) {
+                                user.email=newAccount;
+                                user.uid='';
+                              } else {
+                                user.uid=newAccount;
+                                user.email='';
+                              }
                             });
                           },
                           onEditingComplete: () {
                             _accountFocus.unfocus();
                             FocusScope.of(context).requestFocus(_passwordFocus);
+
                           },
                           decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -124,14 +132,14 @@ class _LoginPage extends State<LoginPage>{
                           onChanged: (String newPassword){
                             if(newPassword==user.password) return ;
                             setState(() {
-                              user.password=newPassword;//identify account is email or user ID
+                              user.password=newPassword;
                             });
                           },
                           onEditingComplete: () {
                             _passwordFocus.unfocus();
                             TextInput.finishAutofillContext();
                             setState(() {
-                              user.password=_passwordControl.text;//identify account is email or user ID
+                              user.password=_passwordControl.text;
                             });
                           },
                           decoration: const InputDecoration(
