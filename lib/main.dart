@@ -1,18 +1,33 @@
 import 'package:flutter/material.dart';
-import 'package:school_project/storage/storage.dart';
+import 'package:school_project/root_page.dart';
+import 'package:school_project/ui/pages/home_page.dart';
+import 'package:school_project/ui/pages/login_page.dart';
+import 'package:school_project/ui/pages/register_page.dart';
+import 'api/provider/auth_provider.dart';
 import 'api/user/user_api.dart';
-import 'app.dart';
 
 Future<void> main() async {
-  //TODO: replace this feature (auto login) with future builder
   WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+}
 
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
-  final userStorage=UserStorage();
-  //try to login with local stored data
-  final user=await userStorage.readUser();
-  print(user);
-  final response=await UserApi().login(user);
-  print(response);
-  runApp(MyApp(response.success));
+  @override
+  Widget build(BuildContext context) {
+    return AuthProvider(
+      userApi: UserApi(),
+      child:MaterialApp(
+        routes:{
+          '/home': (context)=>const HomePage(),
+          '/register': (context)=>const RegisterPage(),
+          '/login': (context)=>const LoginPage(),
+        },
+        title: 'App',
+        theme: ThemeData.dark(),
+        home:const RootPage()
+      )
+    );
+  }
 }

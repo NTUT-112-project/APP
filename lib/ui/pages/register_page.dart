@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
+import '../../api/provider/auth_provider.dart';
 import '../../api/user/user.dart';
 import '../../api/user/user_api.dart';
 
@@ -19,9 +20,6 @@ class _RegisterPage extends State<RegisterPage>{
   String confirmPasswordInvalidMessage='';
 
   bool passwordConfirmCorrect=true;
-  final user=User('','','');
-  final userApi=UserApi();
-
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _uidControl = TextEditingController();
@@ -36,6 +34,7 @@ class _RegisterPage extends State<RegisterPage>{
 
 
   void _signUp(BuildContext context) async {
+    final userApi=AuthProvider.of(context).userApi;
     if(confirmPasswordInvalidMessage!='') return ;
     showDialog(
         barrierDismissible: false,
@@ -60,8 +59,7 @@ class _RegisterPage extends State<RegisterPage>{
             ),
           );
         });
-    print(user);
-    final response=await userApi.userRegister(user);
+    final response=await userApi.userRegister();
     print(response);
 
     if (context.mounted) {
@@ -83,6 +81,7 @@ class _RegisterPage extends State<RegisterPage>{
 
   @override
   Widget build(BuildContext context) {
+    final user=AuthProvider.of(context).userApi.user;
     return Scaffold(
       body: SingleChildScrollView(
         child:Column(

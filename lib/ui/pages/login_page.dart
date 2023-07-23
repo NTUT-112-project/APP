@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:school_project/storage/storage.dart';
 
+import '../../api/provider/auth_provider.dart';
 import '../../api/user/user.dart';
 import '../../api/user/user_api.dart';
 import 'package:email_validator/email_validator.dart';
@@ -15,10 +16,7 @@ class LoginPage extends StatefulWidget{
 class _LoginPage extends State<LoginPage>{
   bool isRememberMeChecked=false;
   bool isWrongAccountOrPassword=false;
-  final user=User('','','');
-  final userApi=UserApi();
   final _formKey = GlobalKey<FormState>();
-
   final TextEditingController _accountControl = TextEditingController();
   final TextEditingController _passwordControl = TextEditingController();
 
@@ -26,6 +24,7 @@ class _LoginPage extends State<LoginPage>{
   final FocusNode _passwordFocus = FocusNode();
 
   void _signIn(BuildContext context) async {
+    final userApi=AuthProvider.of(context).userApi;
     showDialog(
       barrierDismissible: false,
       context: context,
@@ -49,8 +48,7 @@ class _LoginPage extends State<LoginPage>{
           ),
         );
       });
-    print(user);
-    final response=await userApi.login(user);
+    final response=await userApi.login();
     print(response);
 
     if (context.mounted) {
@@ -58,7 +56,7 @@ class _LoginPage extends State<LoginPage>{
         Navigator.pop(context);
         Navigator.popAndPushNamed(context,'/home');
         if(isRememberMeChecked){
-          UserStorage().writeUser(user);
+          UserStorage().writeUser(userApi.user);
         }
       }
       else{
@@ -72,6 +70,7 @@ class _LoginPage extends State<LoginPage>{
   }
   @override
   Widget build(BuildContext context) {
+    final user=AuthProvider.of(context).userApi.user;
     return Scaffold(
       body: SingleChildScrollView(
           child:Column(
