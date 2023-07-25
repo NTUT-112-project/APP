@@ -4,31 +4,49 @@ import 'package:school_project/storage/storage.dart';
 import 'package:school_project/ui/pages/home_page.dart';
 import 'package:school_project/ui/pages/login_page.dart';
 
-class RootPage extends StatefulWidget{
+class RootPage extends StatefulWidget {
   const RootPage({super.key});
   @override
   State<StatefulWidget> createState() => _RootPage();
 }
-class _RootPage extends State<RootPage>{
-  bool isSignedIn=false;
-  Future<void> autoSignIn(BuildContext context) async {//try to sign in with local stored account
-    final userStorage=UserStorage();
-    final userApi=AuthProvider.of(context).userApi;
-    userApi.user=await userStorage.readUser();
-    final response=await userApi.login();
+
+enum SignInState { tryingAutoSignIn, autoSignInSucceed, autoSignInFailed }
+
+class _RootPage extends State<RootPage> {
+  SignInState signInState = SignInState.tryingAutoSignIn;
+  Future<void> autoSignIn(BuildContext context) async {
+    //try to sign in with local stored account
+    final userStorage = UserStorage();
+    final userApi = AuthProvider.of(context).userApi;
+    userApi.user = await userStorage.readUser();
+    final response = await userApi.login();
     print(response);
     setState(() {
-      isSignedIn=response.success;
+      signInState = response.success
+          ? SignInState.autoSignInSucceed
+          : SignInState.autoSignInFailed;
     });
   }
+
   @override
-  void didChangeDependencies(){
+  void didChangeDependencies() {
     super.didChangeDependencies();
     autoSignIn(context);
   }
+
   @override
   Widget build(BuildContext context) {
-    return (isSignedIn)? const HomePage():const LoginPage();
+    switch (signInState) {
+      case SignInState.tryingAutoSignIn:
+        return const Center(
+          child: SizedBox(
+              width: 50, height: 50, child: CircularProgressIndicator(),
+          ),
+        );
+      case SignInState.autoSignInSucceed:
+        return const HomePage();
+      case SignInState.autoSignInFailed:
+        return const LoginPage();
+    }
   }
-
 }
