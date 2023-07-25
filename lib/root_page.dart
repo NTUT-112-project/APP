@@ -27,11 +27,6 @@ class _RootPage extends State<RootPage>{
     autoSignIn(context);
   }
   @override
-  void initState() {
-    super.initState();
-
-  }
-  @override
   Widget build(BuildContext context) {
     return (isSignedIn)? const HomePage():const LoginPage();
   }

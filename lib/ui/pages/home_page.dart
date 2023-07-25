@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:school_project/api/provider/auth_provider.dart';
 import 'package:school_project/ui/pages/Bar/profile_page.dart';
 import 'package:school_project/ui/pages/Bar/tool_page.dart';
 
-import '../../api/user/user.dart';
-import '../textures/glassmorphism.dart';
+import '../../api/user/user_api.dart';
+import '../../storage/storage.dart';
 
 class HomePage extends StatefulWidget {
   // final User user;
@@ -21,48 +21,49 @@ class _HomePage extends State<HomePage> {
     const ToolPage(),
     const ProfilePage(),
   ];
-  // void _signOut(BuildContext context) async {
-  //   showDialog(
-  //       barrierDismissible: false,
-  //       context: context,
-  //       builder: (_) {
-  //         return Dialog(
-  //           backgroundColor: Colors.transparent,
-  //           child: Center(
-  //             child: Column(
-  //               mainAxisAlignment: MainAxisAlignment.center,
-  //               children: const [
-  //                 CircularProgressIndicator(),
-  //                 SizedBox(
-  //                   height: 15,
-  //                 ),
-  //                 Text(
-  //                   'Loading...',
-  //                   style: TextStyle(color: Colors.white,fontSize: 15),
-  //                 )
-  //               ],
-  //             ),
-  //           ),
-  //         );
-  //       });
-  //   print(user);
-  //   final response=await userApi.userRegister(user);
-  //   print(response);
-  //
-  //   if (context.mounted) {
-  //     if(response.success){
-  //       Navigator.pop(context);
-  //       Navigator.popAndPushNamed(context,'/login');
-  //     }
-  //     else{
-  //       Navigator.pop(context);
-  //       setState(() {
-  //
-  //       });
-  //     }
-  //   }
-  //
-  // }
+  void _signOut(BuildContext context) async {
+    final userApi=AuthProvider.of(context).userApi;
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (_) {
+          return const Dialog(
+            backgroundColor: Colors.transparent,
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(),
+                  SizedBox(
+                    height: 15,
+                  ),
+                  Text(
+                    'Loading...',
+                    style: TextStyle(color: Colors.white,fontSize: 15),
+                  )
+                ],
+              ),
+            ),
+          );
+        });
+    final response=await userApi.logout();
+    print(response);
+
+    if (context.mounted) {
+      if(response.success){
+        Navigator.pop(context);
+        Navigator.popAndPushNamed(context,'/login');
+        UserStorage().writeUser(UserApi().user);
+      }
+      else{
+        Navigator.pop(context);
+        setState(() {
+
+        });
+      }
+    }
+
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -72,7 +73,8 @@ class _HomePage extends State<HomePage> {
           controller: _pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: _pageList,
-        ));
+        ),
+    );
   }
 
   Widget _buildDrawer() {
@@ -92,7 +94,7 @@ class _HomePage extends State<HomePage> {
                   child: Text('hello there',style: TextStyle(fontSize: 20),),
                 ),
               ),
-              _buildTile("tool", 0),
+              _buildTile("GPT translator", 0),
               _buildTile("profile", 1),
               const Divider(
                 height: 10,
@@ -105,7 +107,7 @@ class _HomePage extends State<HomePage> {
                     title: Text('logout',style: const TextStyle(fontSize: 20),),
                     onTap: () {
                       setState(() {
-                        // _signOut(context);
+                        _signOut(context);
                       });
 
                     },
@@ -114,7 +116,8 @@ class _HomePage extends State<HomePage> {
 
             ],
           ),
-        ));
+        ),
+    );
   }
 
   Widget _buildTile(String name, int index) {
@@ -130,7 +133,7 @@ class _HomePage extends State<HomePage> {
           });
           Navigator.pop(context);
         },
-      )
+      ),
     );
   }
 }

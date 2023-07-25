@@ -29,12 +29,12 @@ class _LoginPage extends State<LoginPage>{
       barrierDismissible: false,
       context: context,
       builder: (_) {
-        return Dialog(
+        return const Dialog(
           backgroundColor: Colors.transparent,
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
+              children: [
                 CircularProgressIndicator(),
                 SizedBox(
                   height: 15,

@@ -35,7 +35,9 @@ class UserApi{
     try{
       final response = await http.post(Uri.parse('$port/api/login'),body: user.toJson());
       print("response code: ${response.statusCode}");
-      return Response.fromJson(jsonDecode(response.body));
+      final formatResponse=Response.fromJson(jsonDecode(response.body));
+      if(formatResponse.success) user.apiToken=formatResponse.data;
+      return formatResponse;
     }
     catch(e){
       print(e);
@@ -81,6 +83,7 @@ class UserApi{
   }
   Future<Response> logout() async{
     try{
+      print('$port/api/logout?api_token=${user.apiToken}');
       final response = await http.get(Uri.parse('$port/api/logout?api_token=${user.apiToken}'));
       print("response code: ${response.statusCode}");
       return Response.fromJson(jsonDecode(response.body));

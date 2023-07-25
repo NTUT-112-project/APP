@@ -1,10 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:school_project/root_page.dart';
+import 'package:school_project/ui/pages/float_page.dart';
 import 'package:school_project/ui/pages/home_page.dart';
 import 'package:school_project/ui/pages/login_page.dart';
 import 'package:school_project/ui/pages/register_page.dart';
 import 'api/provider/auth_provider.dart';
 import 'api/user/user_api.dart';
+
+
+@pragma('vm:entry-point')
+void androidWindow() {
+  runApp(const AndroidWindowApp());
+}
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
