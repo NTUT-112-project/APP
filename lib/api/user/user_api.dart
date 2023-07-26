@@ -8,8 +8,9 @@ import '../Controller.dart';
 
 class UserApi{
   static const String port='http://192.168.0.14:8000';
-
-  Future<Response> userRegister(User user) async{
+  User user=User('','','');
+  
+  Future<Response> userRegister() async{
     try{
       final response = await http.post(Uri.parse('$port/api/user'),body: user.toJson());
       print("response code: ${response.statusCode}");

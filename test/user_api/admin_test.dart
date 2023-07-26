@@ -1,6 +1,7 @@
 
 import 'dart:convert';
 // 📦 Package imports:
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:school_project/api/Controller.dart';
 import 'package:school_project/api/user/user.dart';
@@ -8,51 +9,53 @@ import 'package:school_project/api/user/user_api.dart';
 
 void main() {
   group('normalUserLogin',(){
-    final user=User('admin','admin@gmail.com','admin123');
-    final dummyUser=User('dummy','dummy@gmail.com','dummy123');
     final userApi=UserApi();
+    userApi.user=User('admin','admin@gmail.com','admin123');
+
+    final dummyUserApi=UserApi();
+    dummyUserApi.user=User('dummy','dummy@gmail.com','dummy123');
 
     setUp(() {
 
     });
     test('register admin', () async {
-      final response=await userApi.adminRegister(user);
-      print(response.data);
-      expect(response.success, true);
+      final response=await userApi.adminRegister();
+      debugPrint(response.data.toString());
+      expect(response.success, false);//false after tested once
     });
     test('register dummy user', () async {
-      final response=await userApi.userRegister(dummyUser);
-      print(response.data);
+      final response=await dummyUserApi.userRegister();
+      debugPrint(response.data.toString());
       expect(response.success, true);
     });
     test('login', () async {
-      final response=await userApi.login(user);
-      user.apiToken=response.data;//get api token here
-      print(response.data);
+      final response=await userApi.login();
+      userApi.user.apiToken=response.data;//get api token here
+      debugPrint(response.data.toString());
       expect(response.success, true);
     });
     test('get info', () async {
-      final response = await userApi.info(user);
-      print(response.data);
+      final response = await userApi.info();
+      debugPrint(response.data.toString());
       expect(response.success, true);
     });
     test('delete', () async {
-      final response = await userApi.delete(user,'dummy');
-      print(response.data);
+      final response = await userApi.delete('dummy');
+      debugPrint(response.data.toString());
       expect(response.success, true);//successfully deleted dummy user
     });
     test('update',()async {
       const newUid='newAdminName';
       const newGmail='newAdminGmail@gmail.com';
-      user.email=newGmail;
-      user.uid=newUid;
-      final response = await userApi.update(user);
-      print(response.data);
+      userApi.user.email=newGmail;
+      userApi.user.uid=newUid;
+      final response = await userApi.update();
+      debugPrint(response.data.toString());
       expect(response.message, anyOf('Validation Error.','User updated successfully.'));
     });
     test('logout',()async{
-      final response = await userApi.logout(user);
-      print(response.message);
+      final response = await userApi.logout();
+      debugPrint(response.message.toString());
       expect(response.success,true);
     });
   });

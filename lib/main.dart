@@ -6,7 +6,16 @@ import 'api/user/user.dart';
 import 'api/user/user_api.dart';
 
 
-void main() => runApp(const MyApp());
+@pragma('vm:entry-point')
+void androidWindow() {
+  runApp(const AndroidWindowApp());
+}
+
+
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  runApp(const MyApp());
+}
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
