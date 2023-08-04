@@ -13,7 +13,6 @@ void androidWindow() {
   runApp(const AndroidWindowApp());
 }
 
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());

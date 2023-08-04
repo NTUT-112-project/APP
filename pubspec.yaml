@@ -39,6 +39,8 @@ dependencies:
   email_validator: ^2.1.16
   path_provider: ^2.0.15
   android_window: ^0.4.0
+  language_picker: ^0.4.3
+  chalkdart: ^2.0.9
 
 dev_dependencies:
   flutter_test:

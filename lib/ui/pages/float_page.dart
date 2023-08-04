@@ -36,24 +36,17 @@ class WindowHomePage extends StatelessWidget {
         child: Scaffold(
           backgroundColor:
           Theme.of(context).scaffoldBackgroundColor.withOpacity(0.8),
-          body: ListView(
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(8),
+          body: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+
             children: [
-              const ElevatedButton(
+              const CloseButton(
                 onPressed: AndroidWindow.close,
-                child: Text('Close'),
               ),
               ElevatedButton(
                 onPressed: () async {
-                  final response = await AndroidWindow.post(
-                    'hello',
-                    'fuck you',
-                  );
-                  showSnackBar(
-                    context,
-                    'response from main app: $response',
-                  );
+
                 },
                 child: const Text('Send message'),
               ),

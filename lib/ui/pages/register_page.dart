@@ -242,6 +242,7 @@ class _RegisterPage extends State<RegisterPage>{
                   ),
                   TextButton(
                     onPressed: (){
+                      print("here");
                       Navigator.popAndPushNamed(context, '/login');
                     },
                     child: const Text(
