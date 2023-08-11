@@ -47,8 +47,10 @@ void main() {
     test('update',()async {
       const newUid='newAdminName';
       const newGmail='newAdminGmail@gmail.com';
+      const newPassword='777777';
       userApi.user.email=newGmail;
       userApi.user.uid=newUid;
+      userApi.user.password=newPassword;
       final response = await userApi.update();
       debugPrint(response.data.toString());
       expect(response.message, anyOf('Validation Error.','User updated successfully.'));

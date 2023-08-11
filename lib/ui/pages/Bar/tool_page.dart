@@ -19,7 +19,13 @@ class _ToolPage extends State<ToolPage> {
     ...Languages.defaultLanguages
   ];
   bool isWindowRunning = false;
-
+  double screenWidth=0;
+  Size screenSize = WidgetsBinding.instance.window.physicalSize;
+  @override
+  void didChangeDependencies() {
+    screenWidth=MediaQuery.of(context).size.height;
+    super.didChangeDependencies();
+  }
 
   Widget _buildDropdownItem(Language language) {
     return Row(
@@ -134,8 +140,9 @@ class _ToolPage extends State<ToolPage> {
                   backgroundColor: MaterialStateProperty.resolveWith(getColor)),
               onPressed: () async {
                 isWindowRunning = await android_window.isRunning();
+                print("screenWidth is $screenWidth");
                 android_window.open(
-                  size: const Size(600, 400),
+                  size: Size(screenSize.width, 400),
                   position: const Offset(10000, 10000),
                 );
               },

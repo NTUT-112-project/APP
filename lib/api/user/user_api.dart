@@ -7,7 +7,7 @@ import '../Controller.dart';
 
 
 class UserApi{
-  static const String port='http://192.168.0.14:8000';
+  static const String port='http://192.168.0.13:8000';
   User user=User('','','');
   
   Future<Response> userRegister() async{

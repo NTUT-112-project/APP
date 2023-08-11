@@ -16,7 +16,7 @@ class AuthProvider extends InheritedWidget{
 
   static AuthProvider of(BuildContext context) {
     final AuthProvider? result = maybeOf(context);
-    assert(result != null, 'No InheritedWidget1 found in context');
+    assert(result != null, "No InheritedWidget 'AuthProvider' found in context");
     return result!;
   }
 }
