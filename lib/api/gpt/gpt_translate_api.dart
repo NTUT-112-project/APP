@@ -1,18 +1,17 @@
 import 'dart:convert';
-
+import 'package:http/http.dart' as http;
 import '../route.dart';
 import '../Controller.dart';
 import 'gpt_translate.dart';
 
 class GptTranslateApi{
   final String port=serverUrl;
-  final gptTranslate=GptTranslate('','','');
-  get http => null;
-
+  GptTranslate gptTranslate=GptTranslate('','','');
   Future<Response> translate() async{
     try{
       final response = await http.post(Uri.parse('$port/api/gpt_translate'),body: gptTranslate.toJson());
       print("response code: ${response.statusCode}");
+
       return Response.fromJson(jsonDecode(response.body));
     }
     catch(e){
