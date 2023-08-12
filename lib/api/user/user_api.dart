@@ -4,10 +4,11 @@ import 'package:http/http.dart' as http;
 import 'package:school_project/api/user/user.dart';
 
 import '../Controller.dart';
+import '../route.dart';
 
 
 class UserApi{
-  static const String port='http://192.168.0.13:8000';
+  final String port=serverUrl;
   User user=User('','','');
   
   Future<Response> userRegister() async{

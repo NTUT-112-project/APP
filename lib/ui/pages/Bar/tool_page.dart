@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:android_window/main.dart' as android_window;
+import 'package:flutter/services.dart';
 import 'package:language_picker/languages.dart';
 import 'package:language_picker/language_picker.dart';
 
@@ -14,6 +15,7 @@ class ToolPage extends StatefulWidget {
 }
 
 class _ToolPage extends State<ToolPage> {
+  final srcTextController=TextEditingController();
   final List<Language> languages = [
     Language('dl', '(detect language)'),
     ...Languages.defaultLanguages
@@ -41,8 +43,15 @@ class _ToolPage extends State<ToolPage> {
   Widget build(BuildContext context) {
     android_window.setHandler((name, data) async {
       switch (name) {
-        case 'hello':
-          return 'hello android window';
+        case 'getClipboardText':
+          final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
+          if(clipboardData!=null){
+            return clipboardData.text??'';
+          }
+          else{
+            return '';
+          }
+
       }
       return null;
     });

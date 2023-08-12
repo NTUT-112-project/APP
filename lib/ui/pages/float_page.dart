@@ -1,9 +1,15 @@
 import 'package:android_window/android_window.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:language_picker/language_picker_dropdown_controller.dart';
 import 'package:language_picker/languages.dart';
 import 'package:language_picker/language_picker.dart';
+import 'package:clipboard/clipboard.dart';
 
+class AlwaysDisabledFocusNode extends FocusNode{
+  @override
+  bool get hasFocus=>false;
+}
 
 class AndroidWindowApp extends StatelessWidget {
   const AndroidWindowApp({Key? key}) : super(key: key);
@@ -32,9 +38,18 @@ class _WindowHomePage extends State<WindowHomePage> {
   ];
   final srcLanguageController = LanguagePickerDropdownController(Language('dl', '(detect language)'));
   final distLanguageController = LanguagePickerDropdownController(Languages.english);
+
+  final srcTextController=TextEditingController();
+  final distTextController=TextEditingController();
+
   bool isExpended=false;
   final maxWidth=WidgetsBinding.instance.window.physicalSize.width.round();
 
+  @override
+  void dispose() {
+    srcTextController.dispose();
+    super.dispose();
+  }
   Widget _buildDropdownItem(Language language) {
     return Row(
       children: <Widget>[
@@ -70,7 +85,7 @@ class _WindowHomePage extends State<WindowHomePage> {
               children: [
 
                 Padding(
-                  padding: EdgeInsets.all(16.0),
+                  padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                   child:Column(
                     children:[
                       GestureDetector(
@@ -161,20 +176,37 @@ class _WindowHomePage extends State<WindowHomePage> {
 
                         ],
                       ),
-
                       TextField(
+                        controller: srcTextController,
                         decoration: InputDecoration(
-                            border: OutlineInputBorder(),
-                            hintText: 'copy something here'
+                          border: OutlineInputBorder(),
+                          hintText: 'copy something',
+                          hintStyle: TextStyle(color: Colors.white30)
                         ),
                       ),
-                      SizedBox(height: 3,),
+                      const SizedBox(height: 3,),
                       TextField(
-                        decoration: InputDecoration(
+                        controller: distTextController,
+                        focusNode: AlwaysDisabledFocusNode(),
+                        decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                         ),
                       ),
+                      TextButton(
+                        onPressed: () async {
+                          final data=await AndroidWindow.post('getClipboardText');
 
+                          setState(() {
+                            srcTextController.text=data as String;
+                          });
+
+                          print('clipboardData here: $data');
+                        },
+                        child: const Text(
+                          "Create one.",
+                          style: TextStyle(fontSize: 18),
+                        ),
+                      ),
                     ]
                   )
 
