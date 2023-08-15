@@ -1,10 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
-import 'package:android_window/main.dart' as android_window;
+import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:flutter/services.dart';
 import 'package:language_picker/languages.dart';
 import 'package:language_picker/language_picker.dart';
-
-
 
 
 class ToolPage extends StatefulWidget {
@@ -21,13 +21,6 @@ class _ToolPage extends State<ToolPage> {
     ...Languages.defaultLanguages
   ];
   bool isWindowRunning = false;
-  double screenWidth=0;
-  Size screenSize = WidgetsBinding.instance.window.physicalSize;
-  @override
-  void didChangeDependencies() {
-    screenWidth=MediaQuery.of(context).size.height;
-    super.didChangeDependencies();
-  }
 
   Widget _buildDropdownItem(Language language) {
     return Row(
@@ -41,25 +34,8 @@ class _ToolPage extends State<ToolPage> {
   }
   @override
   Widget build(BuildContext context) {
-    android_window.setHandler((name, data) async {
-      switch (name) {
-        case 'getClipboardText':
-          final clipboardData = await Clipboard.getData(Clipboard.kTextPlain);
-          if(clipboardData!=null){
-            return clipboardData.text??'';
-          }
-          else{
-            return '';
-          }
-
-      }
-      return null;
-    });
     Color getColor(Set<MaterialState> states) {
-      if (isWindowRunning) {
-        return Colors.red;
-      }
-      return Colors.blue;
+      return (isWindowRunning)?Colors.red:Colors.blue;
     }
 
     return Scaffold(
@@ -148,14 +124,33 @@ class _ToolPage extends State<ToolPage> {
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith(getColor)),
               onPressed: () async {
-                isWindowRunning = await android_window.isRunning();
-                print("screenWidth is $screenWidth");
-                android_window.open(
-                  size: Size(screenSize.width, 400),
-                  position: const Offset(10000, 10000),
+                print("trying to open");
+                if (await FlutterOverlayWindow.isActive()){
+                  print("already on");
+                  return;
+                }
+                print("opening");
+                await FlutterOverlayWindow.showOverlay(
+                  enableDrag: true,
+                  overlayTitle: "X-SLAYER",
+                  overlayContent: 'Overlay Enabled',
+                  flag: OverlayFlag.defaultFlag,
+                  visibility: NotificationVisibility.visibilityPrivate,
+                  positionGravity: PositionGravity.none,
+                  height: 100,
+                  width: 100,
+
                 );
               },
               child: const Text('Activate Translator'),
+            ),
+            TextButton(
+              onPressed: () {
+                log('Try to close');
+                FlutterOverlayWindow.closeOverlay()
+                    .then((value) => log('STOPPED: alue: $value'));
+              },
+              child: const Text("Close Overlay"),
             ),
           ],
         ),

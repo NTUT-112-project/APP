@@ -9,8 +9,13 @@ import 'api/user/user_api.dart';
 
 
 @pragma('vm:entry-point')
-void androidWindow() {
-  runApp(const AndroidWindowApp());
+void overlayMain() {
+  runApp(
+    const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: WindowHomePage(),
+    ),
+  );
 }
 
 Future<void> main() async {

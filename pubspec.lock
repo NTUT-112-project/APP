@@ -17,14 +17,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "5.13.0"
-  android_window:
-    dependency: "direct main"
-    description:
-      name: android_window
-      sha256: e1de7a3735d9c2841789c71304c08c66ea1a8beb64f3ead7600a2b39c1e36258
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.4.0"
   args:
     dependency: transitive
     description:
@@ -166,6 +158,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.2"
+  flutter_overlay_window:
+    dependency: "direct main"
+    description:
+      name: flutter_overlay_window
+      sha256: "5bab855f641b4fca176c9002cd351b53cce518102721e4aec60eda3c74054360"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.4.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
