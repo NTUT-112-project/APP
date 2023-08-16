@@ -38,16 +38,20 @@ class _WindowHomePage extends State<WindowHomePage> {
 
   @override
   void dispose() {
+    srcLanguageController.dispose();
+    distLanguageController.dispose();
     srcTextController.dispose();
+    distTextController.dispose();
     super.dispose();
   }
+
   @override
   void initState() {
     isExpended = false;
     super.initState();
   }
 
-  Widget translateMenu(){
+  Widget translateMenu() {
     return SingleChildScrollView(
       child: Column(
         children: [
@@ -60,14 +64,12 @@ class _WindowHomePage extends State<WindowHomePage> {
                       setState(() {
                         isExpended = false;
                       });
-                      await FlutterOverlayWindow.resizeOverlay(
-                          40, 40);
+                      await FlutterOverlayWindow.resizeOverlay(40, 40);
                     },
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.transparent,
-                        borderRadius:
-                        BorderRadius.circular(8.0),
+                        borderRadius: BorderRadius.circular(8.0),
                       ),
                       padding: EdgeInsets.all(3.0),
                       child: Icon(
@@ -78,33 +80,31 @@ class _WindowHomePage extends State<WindowHomePage> {
                     ),
                   ),
                   Expanded(
-                      child: TextButton(
-                          onPressed: () {},
-                          child: Row(
-                            mainAxisAlignment:
-                            MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: Colors.transparent,
-                                  borderRadius:
-                                  BorderRadius.circular(8.0),
-                                ),
-                                child: const Icon(
-                                  Icons.translate,
-                                  size: 20.0,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Text(
-                                "Translate",
-                                style:
-                                TextStyle(color: Colors.white),
-                              ),
-                            ],
-                          )),
+                    child: TextButton(
+                      onPressed: () {
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.transparent,
+                              borderRadius: BorderRadius.circular(8.0),
+                            ),
+                            child: const Icon(
+                              Icons.translate,
+                              size: 20.0,
+                              color: Colors.white,
+                            ),
+                          ),
+                          const Text(
+                            "Translate",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
-
                 ],
               )),
           Padding(
@@ -112,34 +112,37 @@ class _WindowHomePage extends State<WindowHomePage> {
             child: Column(
               children: [
                 Row(
-
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
                       child: Focus(
-                        onFocusChange: (hasFocus) async {
-                        },
-                        child:LanguagePickerDropdown(
-                          initialValue: srcLanguageController.value,
-                          controller: srcLanguageController,
-                          languages: languages,
-                          itemBuilder: _buildDropdownItem,
-                          onValuePicked: (Language language) {
-                            // await FlutterOverlayWindow.showOverlay(enableDrag: true);
-                            setState(() {
-                              srcLanguageController.value = language;
-                            });
+                          onFocusChange: (hasFocus) async {
+                            log("herehere");
+                            final bool res=await FlutterOverlayWindow.updateDragEnable(false)??false;
+                            log((res)?"true":"false");
+                            log('done');
                           },
-                        )
-                      ),
+
+                          child: LanguagePickerDropdown(
+                            initialValue: srcLanguageController.value,
+                            controller: srcLanguageController,
+                            languages: languages,
+                            itemBuilder: _buildDropdownItem,
+                            onValuePicked: (Language language) {
+                              // await FlutterOverlayWindow.showOverlay(enableDrag: true);
+                              if(!mounted)return;
+                              setState(() {
+                                srcLanguageController.value = language;
+                              });
+                            },
+                          )),
                     ),
                     GestureDetector(
                       onTap: () {
-                        if (srcLanguageController.value == languages[0])
-                          return;
+                        if(!mounted)return;
+                        if (srcLanguageController.value == languages[0]) return;
                         setState(() {
-                          final Language temp =
-                              srcLanguageController.value;
+                          final Language temp = srcLanguageController.value;
                           srcLanguageController.value =
                               distLanguageController.value;
                           distLanguageController.value = temp;
@@ -154,8 +157,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                         child: Icon(
                           Icons.swap_horiz,
                           size: 20.0,
-                          color: (srcLanguageController.value ==
-                              languages[0])
+                          color: (srcLanguageController.value == languages[0])
                               ? Colors.white10
                               : Colors.blue,
                         ),
@@ -167,6 +169,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                         controller: distLanguageController,
                         itemBuilder: _buildDropdownItem,
                         onValuePicked: (Language language) {
+                          if(!mounted)return;
                           setState(() {
                             distLanguageController.value = language;
                           });
@@ -180,34 +183,40 @@ class _WindowHomePage extends State<WindowHomePage> {
                     Expanded(
                       child: TextField(
                         style: TextStyle(color: Colors.white),
-                        onTapOutside: (event) async {
-                          log("text unfocus");
-                          await FlutterOverlayWindow.updateFlag(
-                              OverlayFlag.defaultFlag);
-                        },
                         onTap: () async {
                           log("text focus");
-                          await FlutterOverlayWindow.updateFlag(
-                              OverlayFlag.focusPointer);
+                          await FlutterOverlayWindow.updateFlag(OverlayFlag.focusPointer);
+                          log('get focus done');
+                          final data=await Clipboard.getData(Clipboard.kTextPlain);
+                          log('get clipboard data done');
+                          if(data!=null){
+                            final text=data.text??'';
+                            srcTextController.text=text;
+                            log('got data from clipboard $text');
+                          }
+                          else{
+                            log("got null");
+                          }
+                          await FlutterOverlayWindow.updateFlag(OverlayFlag.defaultFlag);
                         },
                         controller: srcTextController,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
                             hintText: 'copy something',
-                            hintStyle:
-                            TextStyle(color: Colors.white30)
-                        ),
+                            hintStyle: TextStyle(color: Colors.white30)),
                       ),
                     ),
-                    SizedBox(width: 8,),
+                    const SizedBox(
+                      width: 8,
+                    ),
                     Expanded(
                       child: TextField(
                         readOnly: true,
                         controller: distTextController,
                         decoration: const InputDecoration(
                           border: OutlineInputBorder(
-                              borderSide: BorderSide(color: Colors.white,width: 10)
-                          ),
+                              borderSide:
+                                  BorderSide(color: Colors.white, width: 10)),
                         ),
                       ),
                     )
@@ -220,7 +229,8 @@ class _WindowHomePage extends State<WindowHomePage> {
       ),
     );
   }
-  Widget expendButton(){
+
+  Widget expendButton() {
     return Center(
       child: GestureDetector(
         onTap: () async {
@@ -244,41 +254,36 @@ class _WindowHomePage extends State<WindowHomePage> {
       ),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Focus(
-      onFocusChange: (hasFocus) async {
-        if (hasFocus) {
-          await FlutterOverlayWindow.updateFlag(OverlayFlag.focusPointer);
-        } else {
-          await FlutterOverlayWindow.updateFlag(OverlayFlag.defaultFlag);
-        }
-      },
-      child: ClipRRect(
+        onFocusChange: (hasFocus) async {
+        },
+        child: ClipRRect(
           clipBehavior: Clip.hardEdge,
           borderRadius: const BorderRadius.all(Radius.circular(8)),
-          child: GestureDetector(
-            child: Scaffold(
+          child: Scaffold(
               resizeToAvoidBottomInset: false,
               backgroundColor: Colors.black.withOpacity(0.5),
-              body: (isExpended)
-                  ? translateMenu()
-                  : expendButton()
-            ),
-          )),
-    );
+              body: (isExpended) ? translateMenu() : expendButton()),
+        ));
   }
+
   Widget _buildDropdownItem(Language language) {
     return Row(
       children: <Widget>[
         SizedBox(
           width: 1.0,
         ),
-        Text("${language.name}",style: TextStyle(fontSize: 12,color: Colors.white),),
+        Text(
+          "${language.name}",
+          style: TextStyle(fontSize: 12, color: Colors.white),
+        ),
       ],
     );
   }
+
   showSnackBar(BuildContext context, String title) {
     final snackBar =
         SnackBar(content: Text(title), padding: const EdgeInsets.all(8));

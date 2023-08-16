@@ -15,6 +15,14 @@ enum SignInState { tryingAutoSignIn, autoSignInSucceed, autoSignInFailed }
 
 class _RootPage extends State<RootPage> {
   SignInState signInState = SignInState.tryingAutoSignIn;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    autoSignIn(context);
+  }
+
+
   Future<void> autoSignIn(BuildContext context) async {
     if(signInState!=SignInState.tryingAutoSignIn) return ;
     print(chalk.yellow('trying to auto login with locally stored account and password'));
@@ -29,12 +37,6 @@ class _RootPage extends State<RootPage> {
           ? SignInState.autoSignInSucceed
           : SignInState.autoSignInFailed;
     });
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    autoSignIn(context);
   }
 
   @override
