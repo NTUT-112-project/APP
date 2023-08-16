@@ -32,7 +32,7 @@ class _ToolPage extends State<ToolPage> {
 
   final srcTextController = TextEditingController();
   final distTextController = TextEditingController();
-
+  final gptKeyTextController= TextEditingController();
   bool isWindowRunning = false;
 
   @override
@@ -45,15 +45,9 @@ class _ToolPage extends State<ToolPage> {
   }
 
   Future<void> requestTranslate() async {
-    gptTranslationApi.gptTranslate = GptTranslate(
-        (srcLanguageController.value.name == '(detect language)')
-            ? 'none'
-            : srcLanguageController.value.name,
-        distLanguageController.value.name,
-        srcTextController.text);
-    distTextController.text = "Loading";
 
     int dotCount = 1;
+    distTextController.text = "Loading";
     Timer loadingTimer = Timer.periodic(Duration(seconds: 1), (Timer timer) {
       if (dotCount <= 3) {
         distTextController.text = "Loading${'.' * dotCount}";
@@ -62,6 +56,14 @@ class _ToolPage extends State<ToolPage> {
         dotCount = 1;
       }
     });
+    gptTranslationApi.gptTranslate = GptTranslate(
+        (srcLanguageController.value.name == '(detect language)')
+            ? 'none'
+            : srcLanguageController.value.name,
+        distLanguageController.value.name,
+        srcTextController.text,
+      gptKeyTextController.text,
+    );
     final response = await gptTranslationApi.translate();
     loadingTimer.cancel();
     distTextController.text = response.data.toString();
@@ -87,6 +89,7 @@ class _ToolPage extends State<ToolPage> {
                         setState(() {
                           srcLanguageController.value = language;
                         });
+                        requestTranslate();
                       },
                     ),
                   ),
@@ -99,6 +102,7 @@ class _ToolPage extends State<ToolPage> {
                             distLanguageController.value;
                         distLanguageController.value = temp;
                       });
+                      requestTranslate();
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -123,6 +127,7 @@ class _ToolPage extends State<ToolPage> {
                       onValuePicked: (Language language) {
                         if (!mounted) return;
                         setState(() {
+                          requestTranslate();
                           distLanguageController.value = language;
                         });
                       },
@@ -139,21 +144,23 @@ class _ToolPage extends State<ToolPage> {
                       child: TextField(
                         maxLines: 100,
                         style: TextStyle(color: Colors.white),
-                        onChanged: (text) {},
+                        onChanged: (text) {
+                          requestTranslate();
+                        },
                         onTap: () async {
-                          log("text focus");
-                          final data =
-                              await Clipboard.getData(Clipboard.kTextPlain);
-                          log('get clipboard data done');
-                          if (data != null &&
-                              data.text != srcTextController.text) {
-                            final text = data.text ?? '';
-                            srcTextController.text = text;
-                            log('got data from clipboard $text');
-                            requestTranslate();
-                          } else {
-                            log("got null");
-                          }
+                          // log("text focus");
+                          // final data =
+                          //     await Clipboard.getData(Clipboard.kTextPlain);
+                          // log('get clipboard data done');
+                          // if (data != null &&
+                          //     data.text != srcTextController.text) {
+                          //   final text = data.text ?? '';
+                          //   srcTextController.text = text;
+                          //   log('got data from clipboard $text');
+                          //   requestTranslate();
+                          // } else {
+                          //   log("got null");
+                          // }
                         },
                         controller: srcTextController,
                         decoration: const InputDecoration(
@@ -222,6 +229,20 @@ class _ToolPage extends State<ToolPage> {
             const SizedBox(
               height: 20,
             ),
+            Padding(
+              padding: EdgeInsets.fromLTRB(16,0,16,0),
+              child: TextField(
+                controller: gptKeyTextController,
+                decoration: const InputDecoration(
+                  labelText: 'Gpt Key',
+                  border: OutlineInputBorder(
+
+                      borderSide:
+                      BorderSide(color: Colors.white, width: 10)),
+                ),
+              ),
+            ),
+
             translateMenu(),
             const SizedBox(
               height: 20,

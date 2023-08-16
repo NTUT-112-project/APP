@@ -6,7 +6,7 @@ import 'gpt_translate.dart';
 
 class GptTranslateApi{
   final String port=serverUrl;
-  GptTranslate gptTranslate=GptTranslate('','','');
+  GptTranslate gptTranslate=GptTranslate('','','','');
   Future<Response> translate() async{
     try{
       final response = await http.post(Uri.parse('$port/api/gpt_translate'),body: gptTranslate.toJson());
