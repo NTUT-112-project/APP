@@ -81,8 +81,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                   ),
                   Expanded(
                     child: TextButton(
-                      onPressed: () {
-                      },
+                      onPressed: () {},
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -117,12 +116,14 @@ class _WindowHomePage extends State<WindowHomePage> {
                     Expanded(
                       child: Focus(
                           onFocusChange: (hasFocus) async {
-                            log("herehere");
-                            final bool res=await FlutterOverlayWindow.updateDragEnable(false)??false;
-                            log((res)?"true":"false");
-                            log('done');
+                            // log("herehere");
+                            // final bool res =
+                            //     await FlutterOverlayWindow.updateDragEnable(
+                            //             false) ??
+                            //         false;
+                            // log((res) ? "true" : "false");
+                            // log('done');
                           },
-
                           child: LanguagePickerDropdown(
                             initialValue: srcLanguageController.value,
                             controller: srcLanguageController,
@@ -130,7 +131,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                             itemBuilder: _buildDropdownItem,
                             onValuePicked: (Language language) {
                               // await FlutterOverlayWindow.showOverlay(enableDrag: true);
-                              if(!mounted)return;
+                              if (!mounted) return;
                               setState(() {
                                 srcLanguageController.value = language;
                               });
@@ -139,7 +140,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        if(!mounted)return;
+                        if (!mounted) return;
                         if (srcLanguageController.value == languages[0]) return;
                         setState(() {
                           final Language temp = srcLanguageController.value;
@@ -169,7 +170,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                         controller: distLanguageController,
                         itemBuilder: _buildDropdownItem,
                         onValuePicked: (Language language) {
-                          if(!mounted)return;
+                          if (!mounted) return;
                           setState(() {
                             distLanguageController.value = language;
                           });
@@ -185,19 +186,21 @@ class _WindowHomePage extends State<WindowHomePage> {
                         style: TextStyle(color: Colors.white),
                         onTap: () async {
                           log("text focus");
-                          await FlutterOverlayWindow.updateFlag(OverlayFlag.focusPointer);
+                          await FlutterOverlayWindow.updateFlag(
+                              OverlayFlag.focusPointer);
                           log('get focus done');
-                          final data=await Clipboard.getData(Clipboard.kTextPlain);
+                          final data =
+                              await Clipboard.getData(Clipboard.kTextPlain);
                           log('get clipboard data done');
-                          if(data!=null){
-                            final text=data.text??'';
-                            srcTextController.text=text;
+                          if (data != null) {
+                            final text = data.text ?? '';
+                            srcTextController.text = text;
                             log('got data from clipboard $text');
-                          }
-                          else{
+                          } else {
                             log("got null");
                           }
-                          await FlutterOverlayWindow.updateFlag(OverlayFlag.defaultFlag);
+                          await FlutterOverlayWindow.updateFlag(
+                              OverlayFlag.defaultFlag);
                         },
                         controller: srcTextController,
                         decoration: const InputDecoration(
@@ -258,8 +261,7 @@ class _WindowHomePage extends State<WindowHomePage> {
   @override
   Widget build(BuildContext context) {
     return Focus(
-        onFocusChange: (hasFocus) async {
-        },
+        onFocusChange: (hasFocus) async {},
         child: ClipRRect(
           clipBehavior: Clip.hardEdge,
           borderRadius: const BorderRadius.all(Radius.circular(8)),

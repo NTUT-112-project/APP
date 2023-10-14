@@ -1,3 +1,3 @@
 
 
-String get serverUrl =>'http://192.168.0.13:8000';
+String get serverUrl =>'http://10.0.2.2:8000';

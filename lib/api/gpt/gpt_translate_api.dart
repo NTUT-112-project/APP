@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../route.dart';
 import '../Controller.dart';
@@ -11,11 +12,10 @@ class GptTranslateApi{
     try{
       final response = await http.post(Uri.parse('$port/api/gpt_translate'),body: gptTranslate.toJson());
       print("response code: ${response.statusCode}");
-
+      log(response.body);
       return Response.fromJson(jsonDecode(response.body));
     }
     catch(e){
-      print(e);
       return Response(false, e, 'Exception');
     }
   }
