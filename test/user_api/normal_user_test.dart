@@ -19,7 +19,7 @@ void main() {
     test('register', () async {
       final response=await userApi.userRegister();
       debugPrint(response.data.toString());
-      expect(response.success, false);
+      expect(response.success, true);
     });
     test('login', () async {
       final response=await userApi.login();

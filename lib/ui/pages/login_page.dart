@@ -6,6 +6,7 @@ import '../../api/provider/auth_provider.dart';
 import '../../api/user/user.dart';
 import '../../api/user/user_api.dart';
 import 'package:email_validator/email_validator.dart';
+import 'dart:developer';
 
 class LoginPage extends StatefulWidget{
   const LoginPage({super.key});
@@ -49,7 +50,7 @@ class _LoginPage extends State<LoginPage>{
         );
       });
     final response=await userApi.login();
-    print(response);
+    log(response.toString());
 
     if (context.mounted) {
       if(response.success){

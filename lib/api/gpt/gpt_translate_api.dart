@@ -11,7 +11,7 @@ class GptTranslateApi{
   Future<Response> translate() async{
     try{
       final response = await http.post(Uri.parse('$port/api/gpt_translate'),body: gptTranslate.toJson());
-      print("response code: ${response.statusCode}");
+      log("response code: ${response.statusCode}");
       log(response.body);
       return Response.fromJson(jsonDecode(response.body));
     }

@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-
+import 'dart:developer';
 import '../api/user/user.dart';
 
 class UserStorage {
@@ -22,17 +22,17 @@ class UserStorage {
     try {
       final file = await _localFile;
       final user = User.fromJson(jsonDecode(await file.readAsString()));
-      print("read successful data: $user");
+      log("read successful data: $user");
       return user;
     } catch (e) {
-      print("error $e");
+      log("error $e");
       return User('','','');
     }
   }
 
   Future<File> writeUser(User user) async {
     final file = await _localFile;
-    print('trying to write user $user');
+    log('trying to write user $user');
     return file.writeAsString(jsonEncode(user.toJson()));
   }
 }

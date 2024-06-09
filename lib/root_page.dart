@@ -4,6 +4,7 @@ import 'package:school_project/storage/storage.dart';
 import 'package:school_project/ui/pages/home_page.dart';
 import 'package:school_project/ui/pages/login_page.dart';
 import 'package:chalkdart/chalk.dart';
+import 'dart:developer';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -31,7 +32,7 @@ class _RootPage extends State<RootPage> {
     final userApi = AuthProvider.of(context).userApi;
     userApi.user = await userStorage.readUser();
     final response = await userApi.login();
-    print(response);
+    log(response.toString());
     setState(() {
       signInState = response.success
           ? SignInState.autoSignInSucceed
