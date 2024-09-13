@@ -23,11 +23,11 @@ class WindowHomePage extends StatefulWidget {
 
 class _WindowHomePage extends State<WindowHomePage> {
   final List<Language> languages = [
-    Language('dl', '(detect language)'),
+    Language('dl','dl', '(detect language)'),
     ...Languages.defaultLanguages
   ];
   final srcLanguageController =
-      LanguagePickerDropdownController(Language('dl', '(detect language)'));
+      LanguagePickerDropdownController(Language('dl','dl', '(detect language)'));
   final distLanguageController =
       LanguagePickerDropdownController(Languages.english);
 
@@ -64,7 +64,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                       setState(() {
                         isExpended = false;
                       });
-                      await FlutterOverlayWindow.resizeOverlay(40, 40);
+                      await FlutterOverlayWindow.resizeOverlay(40, 40 ,true);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -240,7 +240,7 @@ class _WindowHomePage extends State<WindowHomePage> {
           setState(() {
             isExpended = true;
           });
-          await FlutterOverlayWindow.resizeOverlay(350, 200);
+          await FlutterOverlayWindow.resizeOverlay(350, 200, true);
         },
         child: Container(
           decoration: BoxDecoration(

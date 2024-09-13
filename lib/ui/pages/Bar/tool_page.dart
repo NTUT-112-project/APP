@@ -21,12 +21,12 @@ class ToolPage extends StatefulWidget {
 class _ToolPage extends State<ToolPage> {
   final gptTranslationApi = GptTranslateApi();
   final List<Language> languages = [
-    Language('dl', '(detect language)'),
+    Language('dl','dl', '(detect language)'),
     ...Languages.defaultLanguages
   ];
 
   final srcLanguageController =
-      LanguagePickerDropdownController(Language('dl', '(detect language)'));
+      LanguagePickerDropdownController(Language('dl','dl', '(detect language)'));
   final distLanguageController =
       LanguagePickerDropdownController(Languages.english);
 
