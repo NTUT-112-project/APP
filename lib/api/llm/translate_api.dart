@@ -1,21 +1,23 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import '../route.dart';
 import '../Controller.dart';
-import 'gpt_translate.dart';
+import 'translate.dart';
 
-class GptTranslateApi{
+class TranslateApi{
   final String port=serverUrl;
-  GptTranslate gptTranslate=GptTranslate('','','','');
-  Future<Response> translate() async{
+  Translate translate=Translate('','','','');
+  Future<Response> getTranslateResult() async{
     try{
-      final response = await http.post(Uri.parse('$port/api/gpt_translate'),body: gptTranslate.toJson());
+      final response = await http.post(Uri.parse('$port/api/translate')).timeout(const Duration(seconds: 3));
       print("response code: ${response.statusCode}");
       log(response.body);
       return Response.fromJson(jsonDecode(response.body));
-    }
-    catch(e){
+    } on TimeoutException catch(e){
+      return Response(false, e, 'Timeout');
+    } on Exception catch(e){
       return Response(false, e, 'Exception');
     }
   }
