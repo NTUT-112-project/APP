@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_overlay_window/flutter_overlay_window.dart';
 import 'package:flutter/services.dart';
 import 'package:language_picker/language_picker_dropdown_controller.dart';
 import 'package:language_picker/languages.dart';
@@ -261,31 +260,11 @@ class _ToolPage extends State<ToolPage> {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith(getColor)),
-              onPressed: () async {
-                print("trying to open");
-                if (await FlutterOverlayWindow.isActive()) {
-                  FlutterOverlayWindow.closeOverlay()
-                      .then((value) => log('STOPPED: alue: $value'));
-                  return;
-                }
-                print("opening");
-                await FlutterOverlayWindow.showOverlay(
-                  enableDrag: true,
-                  overlayTitle: "X-SLAYER",
-                  overlayContent: 'Overlay Enabled',
-                  flag: OverlayFlag.defaultFlag,
-                  visibility: NotificationVisibility.visibilityPrivate,
-                  positionGravity: PositionGravity.none,
-                  height: 100,
-                  width: 100,
-                );
-              },
+              onPressed: () {},
               child: const Text('Overlay Translator'),
             ),
             TextButton(
-              onPressed: () async {
-                await FlutterOverlayWindow.requestPermission();
-              },
+              onPressed: () {},
               child: const Text('Request Overlay Permission'),
             ),
           ],
