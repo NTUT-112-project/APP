@@ -18,6 +18,17 @@ class ToolPage extends StatefulWidget {
 }
 
 class _ToolPage extends State<ToolPage> {
+  static const channel = MethodChannel('com.example.APP/overlay');
+  
+  Future<void> _startWindow() async {
+    try {
+      final result = await channel.invokeMethod('test');
+      log(result.toString());
+    } on PlatformException catch (e) {
+      log("Failed to start window: '${e.message}'.");
+    }
+  }
+
   final translationApi = TranslateApi();
   final List<Language> languages = [
     Language('dl','dl', '(detect language)'),
@@ -260,7 +271,7 @@ class _ToolPage extends State<ToolPage> {
             ElevatedButton(
               style: ButtonStyle(
                   backgroundColor: MaterialStateProperty.resolveWith(getColor)),
-              onPressed: () {},
+              onPressed: () => _startWindow(),
               child: const Text('Overlay Translator'),
             ),
             TextButton(
