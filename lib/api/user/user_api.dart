@@ -13,7 +13,7 @@ class UserApi{
   
   Future<Response> userRegister() async{
     try{
-      final response = await http.post(Uri.parse('$port/api/user'),body: user.toJson());
+      final response = await http.post(Uri.parse('$port/api/userSignUp'),body: user.toJson());
       print("response code: ${response.statusCode}");
       return Response.fromJson(jsonDecode(response.body));
     }
@@ -24,7 +24,7 @@ class UserApi{
   }
   Future<Response> adminRegister() async{
     try{
-      final response = await http.post(Uri.parse('$port/api/admin'),body: user.toJson());
+      final response = await http.post(Uri.parse('$port/api/adminSignUp'),body: user.toJson());
       print("response code: ${response.statusCode}");
       return Response.fromJson(jsonDecode(response.body));
     }
@@ -35,7 +35,7 @@ class UserApi{
   }
   Future<Response> login() async{
     try{
-      final response = await http.post(Uri.parse('$port/api/login'),body: user.toJson());
+      final response = await http.post(Uri.parse('$port/api/signIn'),body: user.toJson());
       print("response code: ${response.statusCode}");
       final formatResponse=Response.fromJson(jsonDecode(response.body));
       if(formatResponse.success) user.apiToken=formatResponse.data;

@@ -229,7 +229,7 @@ class _ToolPage extends State<ToolPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
+    Color getColor(Set<WidgetState> states) {
       return (isWindowRunning) ? Colors.red : Colors.blue;
     }
 
@@ -260,7 +260,7 @@ class _ToolPage extends State<ToolPage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith(getColor)),
+                  backgroundColor: WidgetStateProperty.resolveWith(getColor)),
               onPressed: () async {
                 print("trying to open");
                 if (await FlutterOverlayWindow.isActive()) {
