@@ -1,5 +1,5 @@
 
-class GptTranslate{
+class Translate{
 
   String srcLanguage;
   String distLanguage;
@@ -8,16 +8,16 @@ class GptTranslate{
 
   String? distText;
 
-  GptTranslate(this.srcLanguage,this.distLanguage,this.srcText,this.gptApiKey);
+  Translate(this.srcLanguage,this.distLanguage,this.srcText,this.gptApiKey);
 
-  factory GptTranslate.fromJson(dynamic json){
-    return GptTranslate(
+  factory Translate.fromJson(dynamic json){
+    return Translate(
       json['srcLanguage'] as String,
       json['distLanguage'] as String,
       json['srcText'] as String,
       json['gptApiKey'] as String
     );
-  }
+  } 
   Map toJson(){
     return {
       'srcLanguage' : srcLanguage,

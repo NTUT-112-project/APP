@@ -8,8 +8,8 @@ import 'package:language_picker/language_picker_dropdown_controller.dart';
 import 'package:language_picker/languages.dart';
 import 'package:language_picker/language_picker.dart';
 
-import '../../../api/gpt/gpt_translate.dart';
-import '../../../api/gpt/gpt_translate_api.dart';
+import '../../../api/llm/translate.dart';
+import '../../../api/llm/translate_api.dart';
 
 class ToolPage extends StatefulWidget {
   const ToolPage({super.key});
@@ -19,7 +19,7 @@ class ToolPage extends StatefulWidget {
 }
 
 class _ToolPage extends State<ToolPage> {
-  final gptTranslationApi = GptTranslateApi();
+  final translationApi = TranslateApi();
   final List<Language> languages = [
     Language('dl','dl', '(detect language)'),
     ...Languages.defaultLanguages
@@ -35,7 +35,7 @@ class _ToolPage extends State<ToolPage> {
   final gptKeyTextController = TextEditingController();
   bool isWindowRunning = false;
   bool translationInProgress = false;
-  GptTranslate lastTranslateRequest = GptTranslate('', '', '', '');
+  Translate lastTranslateRequest = Translate('', '', '', '');
 
   @override
   void dispose() {
@@ -61,7 +61,7 @@ class _ToolPage extends State<ToolPage> {
       log("previous request not end yet");
       return;
     }
-    lastTranslateRequest = GptTranslate(
+    lastTranslateRequest = Translate(
       (srcLanguageController.value.name == '(detect language)')
           ? 'none'
           : srcLanguageController.value.name,
@@ -73,8 +73,8 @@ class _ToolPage extends State<ToolPage> {
     translationInProgress = true;
     distTextController.text = "${distTextController.text}...";
 
-    gptTranslationApi.gptTranslate = lastTranslateRequest;
-    final response = await gptTranslationApi.translate();
+    translationApi.translate = lastTranslateRequest;
+    final response = await translationApi.getTranslateResult();
     distTextController.text = response.data.toString();
 
     translationInProgress = false;
@@ -229,7 +229,7 @@ class _ToolPage extends State<ToolPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<MaterialState> states) {
+    Color getColor(Set<WidgetState> states) {
       return (isWindowRunning) ? Colors.red : Colors.blue;
     }
 
@@ -260,7 +260,7 @@ class _ToolPage extends State<ToolPage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  backgroundColor: MaterialStateProperty.resolveWith(getColor)),
+                  backgroundColor: WidgetStateProperty.resolveWith(getColor)),
               onPressed: () async {
                 print("trying to open");
                 if (await FlutterOverlayWindow.isActive()) {
