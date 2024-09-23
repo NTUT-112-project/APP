@@ -64,5 +64,5 @@ flutter {
 }
 
 dependencies {
-
+    implementation 'com.github.getActivity:EasyWindow:10.62'
 }
