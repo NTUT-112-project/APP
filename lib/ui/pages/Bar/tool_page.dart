@@ -20,8 +20,9 @@ class ToolPage extends StatefulWidget {
 
 class _ToolPage extends State<ToolPage> {
   final translationApi = TranslateApi();
+  static const detect = Language('detect*','detect*', '(detect language)');
   final List<Language> languages = [
-    Language('detect*','detect*', '(detect language)'),
+    detect,
     Languages.english,
     Languages.chineseTraditional,
     Languages.spanish,
@@ -45,7 +46,7 @@ class _ToolPage extends State<ToolPage> {
   ];
 
   final srcLanguageController =
-      LanguagePickerDropdownController(Language('dl','dl', '(detect language)'));
+      LanguagePickerDropdownController(detect);
   final distLanguageController =
       LanguagePickerDropdownController(Languages.english);
 
