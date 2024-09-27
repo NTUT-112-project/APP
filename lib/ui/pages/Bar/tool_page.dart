@@ -32,14 +32,12 @@ class _ToolPage extends State<ToolPage> {
 
   final srcTextController = TextEditingController();
   final distTextController = TextEditingController();
-  final gptKeyTextController = TextEditingController();
   bool isWindowRunning = false;
   bool translationInProgress = false;
   Translate lastTranslateRequest = Translate('', '', '', '');
 
   @override
   void dispose() {
-    gptKeyTextController.dispose();
     srcLanguageController.dispose();
     distLanguageController.dispose();
     srcTextController.dispose();
@@ -49,8 +47,6 @@ class _ToolPage extends State<ToolPage> {
 
   @override
   void initState() {
-    gptKeyTextController.text =
-        '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';
     super.initState();
   }
 
@@ -67,7 +63,7 @@ class _ToolPage extends State<ToolPage> {
           : srcLanguageController.value.name,
       distLanguageController.value.name,
       srcTextController.text,
-      gptKeyTextController.text,
+      "none"
     );
     log("making translation request");
     translationInProgress = true;
@@ -234,7 +230,7 @@ class _ToolPage extends State<ToolPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('GPT translator'), centerTitle: true),
+      appBar: AppBar(title: const Text('Real-time language translation and learning APP based on LLM'), centerTitle: true),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -243,23 +239,14 @@ class _ToolPage extends State<ToolPage> {
             const SizedBox(
               height: 20,
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(16, 0, 16, 0),
-              child: TextField(
-                controller: gptKeyTextController,
-                decoration: const InputDecoration(
-                  labelText: 'Gpt Key',
-                  border: OutlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white, width: 10)),
-                ),
-              ),
-            ),
             translateMenu(),
             const SizedBox(
               height: 20,
             ),
             ElevatedButton(
               style: ButtonStyle(
+                  textStyle: WidgetStateProperty.all(
+                      const TextStyle(color: Colors.white)),
                   backgroundColor: WidgetStateProperty.resolveWith(getColor)),
               onPressed: () async {
                 print("trying to open");
@@ -282,12 +269,12 @@ class _ToolPage extends State<ToolPage> {
               },
               child: const Text('Overlay Translator'),
             ),
-            TextButton(
-              onPressed: () async {
-                await FlutterOverlayWindow.requestPermission();
-              },
-              child: const Text('Request Overlay Permission'),
-            ),
+            // TextButton(
+            //   onPressed: () async {
+            //     await FlutterOverlayWindow.requestPermission();
+            //   },
+            //   child: const Text('Request Overlay Permission'),
+            // ),
           ],
         ),
       ),
