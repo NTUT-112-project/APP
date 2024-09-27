@@ -256,7 +256,7 @@ class _ToolPage extends State<ToolPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(padding: EdgeInsets. only(top: 100.0)),
-            const Text('Real-time language translation\n and learning APP based on LLM',
+            const Text('  Real-time language translation\n and learning APP based on LLM',
                 style: TextStyle(
                     color: Colors.blue,
                     fontSize: 24,

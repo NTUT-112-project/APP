@@ -78,13 +78,13 @@ class _LoginPage extends State<LoginPage>{
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const SizedBox(height: 100,),
-              const Text(
-                'APP',
+              const Text('  Real-time language translation\n and learning APP based on LLM',
                 style: TextStyle(
-                    fontSize: 40,
-                    color: Colors.blue
-                ),
-              ),
+                    color: Colors.blue,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold)
+              
+            ),
               const SizedBox(height: 10,),
               const Text(
                 "Sign in to APP",
