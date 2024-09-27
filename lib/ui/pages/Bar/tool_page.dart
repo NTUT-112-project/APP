@@ -10,6 +10,7 @@ import 'package:language_picker/language_picker.dart';
 
 import '../../../api/llm/translate.dart';
 import '../../../api/llm/translate_api.dart';
+import '../../../storage/storage.dart';
 
 class ToolPage extends StatefulWidget {
   const ToolPage({super.key});
@@ -54,7 +55,7 @@ class _ToolPage extends State<ToolPage> {
   final distTextController = TextEditingController();
   bool isWindowRunning = false;
   bool translationInProgress = false;
-  Translate lastTranslateRequest = Translate('', '', '', '');
+  Translate lastTranslateRequest = Translate('', '', '', '', '');
 
   @override
   void dispose() {
@@ -83,7 +84,8 @@ class _ToolPage extends State<ToolPage> {
           : srcLanguageController.value.name,
       distLanguageController.value.name,
       srcTextController.text,
-      "none"
+      "none",
+      UserStorage.instance.apiToken
     );
     log("making translation request");
     translationInProgress = true;

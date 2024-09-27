@@ -94,7 +94,7 @@ class _HomePage extends State<HomePage> {
                   child: Text('hello there',style: TextStyle(fontSize: 20),),
                 ),
               ),
-              _buildTile("GPT translator", 0),
+              _buildTile("Translator", 0),
               _buildTile("profile", 1),
               const Divider(
                 height: 10,

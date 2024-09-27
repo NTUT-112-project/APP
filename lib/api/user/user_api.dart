@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:school_project/api/user/user.dart';
 
+import '../../storage/storage.dart';
 import '../Controller.dart';
 import '../route.dart';
 
@@ -38,7 +39,10 @@ class UserApi{
       final response = await http.post(Uri.parse('$port/api/signIn'),body: user.toJson());
       print("response code: ${response.statusCode}");
       final formatResponse=Response.fromJson(jsonDecode(response.body));
-      if(formatResponse.success) user.apiToken=formatResponse.data;
+      if(formatResponse.success) {
+        user.apiToken=formatResponse.data;
+        UserStorage.instance.setApiToken(formatResponse.data as String);
+      }
       return formatResponse;
     }
     catch(e){

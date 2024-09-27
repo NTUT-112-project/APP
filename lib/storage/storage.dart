@@ -2,11 +2,25 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../api/user/user.dart';
 
 class UserStorage {
+    UserStorage._();
+
+  factory UserStorage() => _instance;
+  static final _instance = UserStorage._();
+
+  static UserStorage get instance => _instance;
+
+  String _apiToken = '';
+  String get apiToken => _apiToken;
+  void setApiToken(String token) {
+    _apiToken = token;
+  }
+  
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 

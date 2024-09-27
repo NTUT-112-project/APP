@@ -8,10 +8,10 @@ import 'translate.dart';
 
 class TranslateApi{
   final String port=serverUrl;
-  Translate translate=Translate('','','','');
+  Translate translate=Translate('','','','','');
   Future<Response> getTranslateResult() async{
     try{
-      final response = await http.post(Uri.parse('$port/api/translate')).timeout(const Duration(seconds: 3));
+      final response = await http.post(Uri.parse('$port/api/translate'),body: translate.toJson()).timeout(const Duration(seconds: 3));
       print("response code: ${response.statusCode}");
       log(response.body);
       return Response.fromJson(jsonDecode(response.body));
