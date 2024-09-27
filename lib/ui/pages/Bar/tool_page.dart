@@ -21,8 +21,27 @@ class ToolPage extends StatefulWidget {
 class _ToolPage extends State<ToolPage> {
   final translationApi = TranslateApi();
   final List<Language> languages = [
-    Language('dl','dl', '(detect language)'),
-    ...Languages.defaultLanguages
+    Language('detect*','detect*', '(detect language)'),
+    Languages.english,
+    Languages.chineseTraditional,
+    Languages.spanish,
+    Languages.hindi,
+    Languages.french,
+    Languages.arabic,
+    Languages.bengali,
+    Languages.portuguese,
+    Languages.russian,
+    Languages.japanese,
+    Languages.german,
+    Languages.korean,
+    Languages.vietnamese,
+    Languages.italian,
+    Languages.turkish,
+    Languages.thai,
+    Languages.persian,
+    Languages.dutch,
+    Languages.greekModern1453,
+    Languages.polish,
   ];
 
   final srcLanguageController =
@@ -230,7 +249,10 @@ class _ToolPage extends State<ToolPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Real-time language translation and learning APP based on LLM'), centerTitle: true),
+      appBar: AppBar(title: const Padding(
+        padding: EdgeInsets. only(top: 30.0),
+        child: Text('Real-time language translation\n and learning APP based on LLM')),
+      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
