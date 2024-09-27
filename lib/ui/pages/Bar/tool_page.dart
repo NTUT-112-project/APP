@@ -250,15 +250,18 @@ class _ToolPage extends State<ToolPage> {
     }
 
     return Scaffold(
-      appBar: AppBar(title: const Padding(
-        padding: EdgeInsets. only(top: 30.0),
-        child: Text('Real-time language translation\n and learning APP based on LLM')),
-      ),
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            Padding(padding: EdgeInsets. only(top: 100.0)),
+            const Text('Real-time language translation\n and learning APP based on LLM',
+                style: TextStyle(
+                    color: Colors.blue,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold)
+            ),
             const SizedBox(
               height: 20,
             ),
@@ -269,8 +272,7 @@ class _ToolPage extends State<ToolPage> {
             ElevatedButton(
               style: ButtonStyle(
                   textStyle: WidgetStateProperty.all(
-                      const TextStyle(color: Colors.white)),
-                  backgroundColor: WidgetStateProperty.resolveWith(getColor)),
+                      const TextStyle(color: Colors.white)),),
               onPressed: () async {
                 print("trying to open");
                 if (await FlutterOverlayWindow.isActive()) {
