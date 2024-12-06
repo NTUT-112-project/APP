@@ -80,7 +80,8 @@ class _LoginPage extends State<LoginPage> {
           const SizedBox(
             height: 100,
           ),
-          const Text('  Real-time language translation\n and learning APP based on LLM',
+          const Text('Language translation and learning APP based on LLM',
+              textAlign: TextAlign.center,
               style: TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold)),
           const SizedBox(
             height: 10,
