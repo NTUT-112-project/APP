@@ -1,5 +1,5 @@
 name: school_project
-description: A new Flutter project for 112 school Project
+description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.6 <3.0.0'
+  sdk: '>=3.0.5 <4.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,16 +31,17 @@ dependencies:
   flutter:
     sdk: flutter
 
-  flutter_overlay_window: ^0.4.5
+
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  http: ^0.13.6
-  email_validator: ^2.1.16
-  path_provider: ^2.0.15
-  language_picker: ^0.4.3
-  chalkdart: ^2.0.9
+  flutter_overlay_window: ^0.4.5
+  language_picker: ^0.4.5
   clipboard: ^0.1.3
+  email_validator: ^3.0.0
+  chalkdart: ^2.2.1
+  path_provider: ^2.1.2
+  http: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -52,8 +53,6 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^2.0.0
-  test: ^1.22.0
-
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
