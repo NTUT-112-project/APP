@@ -245,7 +245,7 @@ class _ToolPage extends State<ToolPage> {
 
   @override
   Widget build(BuildContext context) {
-    Color getColor(Set<WidgetState> states) {
+    Color getColor(Set<MaterialState> states) {
       return (isWindowRunning) ? Colors.red : Colors.blue;
     }
 
@@ -271,7 +271,7 @@ class _ToolPage extends State<ToolPage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                textStyle: WidgetStateProperty.all(
+                textStyle: MaterialStateProperty.all(
                     const TextStyle(color: Colors.white)),
               ),
               onPressed: () async {
