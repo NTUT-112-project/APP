@@ -21,7 +21,7 @@ class ToolPage extends StatefulWidget {
 
 class _ToolPage extends State<ToolPage> {
   final translationApi = TranslateApi();
-  static const detect = Language('detect*','detect*', '(detect language)');
+  static const detect = Language('detect*', 'detect*', '(detect language)');
   final List<Language> languages = [
     detect,
     Languages.english,
@@ -46,8 +46,7 @@ class _ToolPage extends State<ToolPage> {
     Languages.polish,
   ];
 
-  final srcLanguageController =
-      LanguagePickerDropdownController(detect);
+  final srcLanguageController = LanguagePickerDropdownController(detect);
   final distLanguageController =
       LanguagePickerDropdownController(Languages.english);
 
@@ -79,14 +78,13 @@ class _ToolPage extends State<ToolPage> {
       return;
     }
     lastTranslateRequest = Translate(
-      (srcLanguageController.value.name == '(detect language)')
-          ? 'none'
-          : srcLanguageController.value.name,
-      distLanguageController.value.name,
-      srcTextController.text,
-      "none",
-      UserStorage.instance.apiToken
-    );
+        (srcLanguageController.value.name == '(detect language)')
+            ? 'none'
+            : srcLanguageController.value.name,
+        distLanguageController.value.name,
+        srcTextController.text,
+        "none",
+        UserStorage.instance.apiToken);
     log("making translation request");
     translationInProgress = true;
     distTextController.text = "${distTextController.text}...";
@@ -257,13 +255,13 @@ class _ToolPage extends State<ToolPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(padding: EdgeInsets. only(top: 100.0)),
-            const Text('  Real-time language translation\n and learning APP based on LLM',
+            Padding(padding: EdgeInsets.only(top: 100.0)),
+            const Text(
+                '  Real-time language translation\n and learning APP based on LLM',
                 style: TextStyle(
                     color: Colors.blue,
                     fontSize: 24,
-                    fontWeight: FontWeight.bold)
-            ),
+                    fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 20,
             ),
@@ -273,8 +271,9 @@ class _ToolPage extends State<ToolPage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                  textStyle: WidgetStateProperty.all(
-                      const TextStyle(color: Colors.white)),),
+                textStyle: WidgetStateProperty.all(
+                    const TextStyle(color: Colors.white)),
+              ),
               onPressed: () async {
                 print("trying to open");
                 if (await FlutterOverlayWindow.isActive()) {
