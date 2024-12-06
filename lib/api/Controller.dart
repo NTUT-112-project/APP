@@ -1,12 +1,10 @@
-
-
-class Response{
+class Response {
   final bool success;
   final dynamic data;
   final String message;
-  Response(this.success,this.data,this.message);
+  Response(this.success, this.data, this.message);
 
-  factory Response.fromJson(dynamic json){
+  factory Response.fromJson(dynamic json) {
     return Response(
       json['success'] as bool,
       json['data'] as dynamic,
@@ -14,13 +12,14 @@ class Response{
     );
   }
 
-  Map toJson(){
+  Map toJson() {
     return {
-      'success' : success,
-      'data' : data,
-      'message' : message,
+      'success': success,
+      'data': data,
+      'message': message,
     };
   }
+
   @override
   String toString() {
     return '{$success, $data, $message}';

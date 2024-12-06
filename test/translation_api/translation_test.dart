@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 // 📦 Package imports:
 import 'package:flutter/cupertino.dart';
@@ -11,18 +9,15 @@ import 'package:school_project/api/user/user.dart';
 import 'package:school_project/api/user/user_api.dart';
 
 void main() {
-  group('TranslationTest',(){
-    final translationApi=TranslateApi();
-    translationApi.translate=Translate('chinese','french','早上好我有冰淇林',"key");
+  group('TranslationTest', () {
+    final translationApi = TranslateApi();
+    translationApi.translate = Translate('chinese', 'french', '早上好我有冰淇林', "key");
 
-    setUp(() {
-
-    });
+    setUp(() {});
     test('simpleTranslate', () async {
-      final response=await translationApi.getTranslateResult();
+      final response = await translationApi.getTranslateResult();
       debugPrint(response.data.toString());
       expect(response.success, true);
     });
   });
-
 }

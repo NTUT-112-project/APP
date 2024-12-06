@@ -7,7 +7,6 @@ import 'package:school_project/ui/pages/register_page.dart';
 import 'api/provider/auth_provider.dart';
 import 'api/user/user_api.dart';
 
-
 @pragma('vm:entry-point')
 void overlayMain() {
   runApp(
@@ -29,17 +28,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AuthProvider(
-      userApi: UserApi(),
-      child:MaterialApp(
-        routes:{
-          '/home': (context)=>const HomePage(),
-          '/register': (context)=>const RegisterPage(),
-          '/login': (context)=>const LoginPage(),
-        },
-        title: 'App',
-        theme: ThemeData.dark(),
-        home:const RootPage()
-      )
-    );
+        userApi: UserApi(),
+        child: MaterialApp(routes: {
+          '/home': (context) => const HomePage(),
+          '/register': (context) => const RegisterPage(),
+          '/login': (context) => const LoginPage(),
+        }, title: 'App', theme: ThemeData.dark(), home: const RootPage()));
   }
 }

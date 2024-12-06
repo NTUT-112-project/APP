@@ -47,8 +47,7 @@ class _ToolPage extends State<ToolPage> {
   ];
 
   final srcLanguageController = LanguagePickerDropdownController(detect);
-  final distLanguageController =
-      LanguagePickerDropdownController(Languages.english);
+  final distLanguageController = LanguagePickerDropdownController(Languages.english);
 
   final srcTextController = TextEditingController();
   final distTextController = TextEditingController();
@@ -78,9 +77,7 @@ class _ToolPage extends State<ToolPage> {
       return;
     }
     lastTranslateRequest = Translate(
-        (srcLanguageController.value.name == '(detect language)')
-            ? 'none'
-            : srcLanguageController.value.name,
+        (srcLanguageController.value.name == '(detect language)') ? 'none' : srcLanguageController.value.name,
         distLanguageController.value.name,
         srcTextController.text,
         "none",
@@ -128,8 +125,7 @@ class _ToolPage extends State<ToolPage> {
                       if (srcLanguageController.value == languages[0]) return;
                       setState(() {
                         final Language temp = srcLanguageController.value;
-                        srcLanguageController.value =
-                            distLanguageController.value;
+                        srcLanguageController.value = distLanguageController.value;
                         distLanguageController.value = temp;
                       });
                       requestTranslate();
@@ -143,9 +139,7 @@ class _ToolPage extends State<ToolPage> {
                       child: Icon(
                         Icons.swap_horiz,
                         size: 20.0,
-                        color: (srcLanguageController.value == languages[0])
-                            ? Colors.white10
-                            : Colors.blue,
+                        color: (srcLanguageController.value == languages[0]) ? Colors.white10 : Colors.blue,
                       ),
                     ),
                   ),
@@ -213,9 +207,7 @@ class _ToolPage extends State<ToolPage> {
                         readOnly: true,
                         controller: distTextController,
                         decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 10)),
+                          border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 10)),
                         ),
                       ),
                     ),
@@ -256,12 +248,8 @@ class _ToolPage extends State<ToolPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Padding(padding: EdgeInsets.only(top: 100.0)),
-            const Text(
-                '  Real-time language translation\n and learning APP based on LLM',
-                style: TextStyle(
-                    color: Colors.blue,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold)),
+            const Text('  Real-time language translation\n and learning APP based on LLM',
+                style: TextStyle(color: Colors.blue, fontSize: 24, fontWeight: FontWeight.bold)),
             const SizedBox(
               height: 20,
             ),
@@ -271,14 +259,12 @@ class _ToolPage extends State<ToolPage> {
             ),
             ElevatedButton(
               style: ButtonStyle(
-                textStyle: MaterialStateProperty.all(
-                    const TextStyle(color: Colors.white)),
+                textStyle: MaterialStateProperty.all(const TextStyle(color: Colors.white)),
               ),
               onPressed: () async {
                 print("trying to open");
                 if (await FlutterOverlayWindow.isActive()) {
-                  FlutterOverlayWindow.closeOverlay()
-                      .then((value) => log('STOPPED: alue: $value'));
+                  FlutterOverlayWindow.closeOverlay().then((value) => log('STOPPED: alue: $value'));
                   return;
                 }
                 print("opening");

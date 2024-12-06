@@ -22,9 +22,8 @@ class _RootPage extends State<RootPage> {
     autoSignIn(context);
   }
 
-
   Future<void> autoSignIn(BuildContext context) async {
-    if(signInState!=SignInState.tryingAutoSignIn) return ;
+    if (signInState != SignInState.tryingAutoSignIn) return;
     print(chalk.yellow('trying to auto login with locally stored account and password'));
     //try to sign in with local stored account
     final userStorage = UserStorage();
@@ -33,9 +32,7 @@ class _RootPage extends State<RootPage> {
     final response = await userApi.login();
     print(response);
     setState(() {
-      signInState = response.success
-          ? SignInState.autoSignInSucceed
-          : SignInState.autoSignInFailed;
+      signInState = response.success ? SignInState.autoSignInSucceed : SignInState.autoSignInFailed;
     });
   }
 
@@ -45,7 +42,9 @@ class _RootPage extends State<RootPage> {
       case SignInState.tryingAutoSignIn:
         return const Center(
           child: SizedBox(
-              width: 50, height: 50, child: CircularProgressIndicator(),
+            width: 50,
+            height: 50,
+            child: CircularProgressIndicator(),
           ),
         );
       case SignInState.autoSignInSucceed:

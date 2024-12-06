@@ -22,7 +22,7 @@ class _HomePage extends State<HomePage> {
     const ProfilePage(),
   ];
   void _signOut(BuildContext context) async {
-    final userApi=AuthProvider.of(context).userApi;
+    final userApi = AuthProvider.of(context).userApi;
     showDialog(
         barrierDismissible: false,
         context: context,
@@ -39,92 +39,95 @@ class _HomePage extends State<HomePage> {
                   ),
                   Text(
                     'Loading...',
-                    style: TextStyle(color: Colors.white,fontSize: 15),
+                    style: TextStyle(color: Colors.white, fontSize: 15),
                   )
                 ],
               ),
             ),
           );
         });
-    final response=await userApi.logout();
+    final response = await userApi.logout();
     print(response);
 
     if (context.mounted) {
-      if(response.success){
+      if (response.success) {
         Navigator.pop(context);
-        Navigator.popAndPushNamed(context,'/login');
+        Navigator.popAndPushNamed(context, '/login');
         UserStorage().writeUser(UserApi().user);
-      }
-      else{
+      } else {
         Navigator.pop(context);
-        setState(() {
-
-        });
+        setState(() {});
       }
     }
-
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        drawerEdgeDragWidth: 100,
-        drawer: _buildDrawer(),
-        body: PageView(
-          controller: _pageController,
-          physics: const NeverScrollableScrollPhysics(),
-          children: _pageList,
-        ),
+      drawerEdgeDragWidth: 100,
+      drawer: _buildDrawer(),
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _pageList,
+      ),
     );
   }
 
   Widget _buildDrawer() {
     return SizedBox(
-        width: 200,
-        child: Drawer(
-          child: ListView(
-            // Important: Remove any padding from the ListView.
-            padding: EdgeInsets.zero,
-            children: [
-              const SizedBox(
-                height: 100,
-                child: DrawerHeader(
-                  decoration: BoxDecoration(
-                    color: Colors.blue,
-                  ),
-                  child: Text('hello there',style: TextStyle(fontSize: 20),),
+      width: 200,
+      child: Drawer(
+        child: ListView(
+          // Important: Remove any padding from the ListView.
+          padding: EdgeInsets.zero,
+          children: [
+            const SizedBox(
+              height: 100,
+              child: DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'hello there',
+                  style: TextStyle(fontSize: 20),
                 ),
               ),
-              _buildTile("Translator", 0),
-              _buildTile("profile", 1),
-              const Divider(
-                height: 10,
-                thickness: 2,
-                color: Colors.grey,
-              ),
-              SizedBox(
-                  height: 50,
-                  child:ListTile(
-                    title: Text('logout',style: const TextStyle(fontSize: 20),),
-                    onTap: () {
-                      setState(() {
-                        _signOut(context);
-                      });
-
-                    },
-                  )
-              )
-
-            ],
-          ),
+            ),
+            _buildTile("Translator", 0),
+            _buildTile("profile", 1),
+            const Divider(
+              height: 10,
+              thickness: 2,
+              color: Colors.grey,
+            ),
+            SizedBox(
+                height: 50,
+                child: ListTile(
+                  title: Text(
+                    'logout',
+                    style: const TextStyle(fontSize: 20),
+                  ),
+                  onTap: () {
+                    setState(() {
+                      _signOut(context);
+                    });
+                  },
+                ))
+          ],
         ),
+      ),
     );
   }
 
   Widget _buildTile(String name, int index) {
     return SizedBox(
       height: 50,
-      child:ListTile(
-        title: Text(name,style: const TextStyle(fontSize: 20),),
+      child: ListTile(
+        title: Text(
+          name,
+          style: const TextStyle(fontSize: 20),
+        ),
         selected: _currentIndex == index,
         onTap: () {
           setState(() {

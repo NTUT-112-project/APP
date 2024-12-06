@@ -8,7 +8,7 @@ import 'package:path_provider/path_provider.dart';
 import '../api/user/user.dart';
 
 class UserStorage {
-    UserStorage._();
+  UserStorage._();
 
   factory UserStorage() => _instance;
   static final _instance = UserStorage._();
@@ -20,7 +20,7 @@ class UserStorage {
   void setApiToken(String token) {
     _apiToken = token;
   }
-  
+
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
 
@@ -40,7 +40,7 @@ class UserStorage {
       return user;
     } catch (e) {
       print("error $e");
-      return User('','','');
+      return User('', '', '');
     }
   }
 

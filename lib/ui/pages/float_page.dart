@@ -22,14 +22,9 @@ class WindowHomePage extends StatefulWidget {
 }
 
 class _WindowHomePage extends State<WindowHomePage> {
-  final List<Language> languages = [
-    Language('dl','dl', '(detect language)'),
-    ...Languages.defaultLanguages
-  ];
-  final srcLanguageController =
-      LanguagePickerDropdownController(Language('dl','dl', '(detect language)'));
-  final distLanguageController =
-      LanguagePickerDropdownController(Languages.english);
+  final List<Language> languages = [Language('dl', 'dl', '(detect language)'), ...Languages.defaultLanguages];
+  final srcLanguageController = LanguagePickerDropdownController(Language('dl', 'dl', '(detect language)'));
+  final distLanguageController = LanguagePickerDropdownController(Languages.english);
 
   final srcTextController = TextEditingController();
   final distTextController = TextEditingController();
@@ -64,7 +59,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                       setState(() {
                         isExpended = false;
                       });
-                      await FlutterOverlayWindow.resizeOverlay(40, 40 ,true);
+                      await FlutterOverlayWindow.resizeOverlay(40, 40, true);
                     },
                     child: Container(
                       decoration: BoxDecoration(
@@ -144,8 +139,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                         if (srcLanguageController.value == languages[0]) return;
                         setState(() {
                           final Language temp = srcLanguageController.value;
-                          srcLanguageController.value =
-                              distLanguageController.value;
+                          srcLanguageController.value = distLanguageController.value;
                           distLanguageController.value = temp;
                         });
                       },
@@ -158,9 +152,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                         child: Icon(
                           Icons.swap_horiz,
                           size: 20.0,
-                          color: (srcLanguageController.value == languages[0])
-                              ? Colors.white10
-                              : Colors.blue,
+                          color: (srcLanguageController.value == languages[0]) ? Colors.white10 : Colors.blue,
                         ),
                       ),
                     ),
@@ -186,11 +178,9 @@ class _WindowHomePage extends State<WindowHomePage> {
                         style: TextStyle(color: Colors.white),
                         onTap: () async {
                           log("text focus");
-                          await FlutterOverlayWindow.updateFlag(
-                              OverlayFlag.focusPointer);
+                          await FlutterOverlayWindow.updateFlag(OverlayFlag.focusPointer);
                           log('get focus done');
-                          final data =
-                              await Clipboard.getData(Clipboard.kTextPlain);
+                          final data = await Clipboard.getData(Clipboard.kTextPlain);
                           log('get clipboard data done');
                           if (data != null) {
                             final text = data.text ?? '';
@@ -199,8 +189,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                           } else {
                             log("got null");
                           }
-                          await FlutterOverlayWindow.updateFlag(
-                              OverlayFlag.defaultFlag);
+                          await FlutterOverlayWindow.updateFlag(OverlayFlag.defaultFlag);
                         },
                         controller: srcTextController,
                         decoration: const InputDecoration(
@@ -217,9 +206,7 @@ class _WindowHomePage extends State<WindowHomePage> {
                         readOnly: true,
                         controller: distTextController,
                         decoration: const InputDecoration(
-                          border: OutlineInputBorder(
-                              borderSide:
-                                  BorderSide(color: Colors.white, width: 10)),
+                          border: OutlineInputBorder(borderSide: BorderSide(color: Colors.white, width: 10)),
                         ),
                       ),
                     )
@@ -287,8 +274,7 @@ class _WindowHomePage extends State<WindowHomePage> {
   }
 
   showSnackBar(BuildContext context, String title) {
-    final snackBar =
-        SnackBar(content: Text(title), padding: const EdgeInsets.all(8));
+    final snackBar = SnackBar(content: Text(title), padding: const EdgeInsets.all(8));
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 }
